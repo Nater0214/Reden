@@ -4,8 +4,11 @@
 
 
 # Imports
-from p2pnetwork.node import Node
+import datetime
+import hashlib
 import socket
+
+from p2pnetwork.node import Node
 
 
 # Definitions
@@ -15,7 +18,7 @@ class LocalNode(Node):
     def __init__(self) -> None:
         """Create a local node on this machine"""
         
-        super().__init__(socket.gethostbyname(socket.gethostname()), 56787)
+        super().__init__(socket.gethostbyname(socket.gethostname()), 56787, hashlib.new("sha1", datetime.datetime.now()).hexdigest())
 
 
 class PeerNode(Node):
