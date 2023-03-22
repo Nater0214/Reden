@@ -21,4 +21,8 @@ from .src import my_node as my_node
 def start() -> bool:
     """Start p2p"""
     
+    # Create local node
     local_node = my_node.LocalNode()
+    
+    # Return success
+    return True
