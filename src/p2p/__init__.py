@@ -30,6 +30,7 @@ def start() -> bool:
     nodes = get_nodes()
     
     # Create local node
+    global local_node
     local_node = my_node.LocalNode()
     
     # Return success
