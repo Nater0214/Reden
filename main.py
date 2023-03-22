@@ -23,6 +23,8 @@ def main() -> None:
     if not success:
         raise p2p.exceptions.P2PStartError("P2P was not able to start.")
     
+    return
+    
     # Create Qt app
     app = QtWidgets.QApplication(sys.argv)
     
