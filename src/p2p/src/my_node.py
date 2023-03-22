@@ -5,12 +5,20 @@
 
 # Imports
 from p2pnetwork.node import Node
+import socket
 
 
 # Definitions
 class LocalNode(Node):
     """The local node on this machine"""
 
+    def __init__(self) -> None:
+        """Create a local node on this machine"""
+        
+        super().__init__(socket.gethostbyname(socket.gethostname()), 56787)
+
 
 class PeerNode(Node):
     """A connected peer node"""
+
+
