@@ -9,11 +9,19 @@ import sys
 from PySide6 import QtWidgets
 
 import src.gui as gui
+import src.p2p as p2p
 
 
 # Definitions
 def main() -> None:
     """Main"""
+    
+    # Start p2p
+    success = p2p.start()
+    
+    # Raise error if no success
+    if not success:
+        raise p2p.errors.P2PStartError("P2P was not able to start.")
     
     # Create Qt app
     app = QtWidgets.QApplication(sys.argv)
