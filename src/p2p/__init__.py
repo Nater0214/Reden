@@ -7,7 +7,7 @@
 # Imports
 from os.path import exists
 
-from .src import my_node as my_node
+from .src.my_node import node as node
 
 
 # Definitions
