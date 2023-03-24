@@ -11,21 +11,28 @@ from . import ui_start
 
 # Window handlers
 class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
+    """The start window"""
+    
     def __init__(self, app: QApplication):
-        # Init
+        """Init"""
         
         super(StartWindow, self).__init__()
         self.setupUi(self)
         
         self.app = app
-        
-        # Button connections
-        self.setupButton.clicked.connect(self.setup_ui_start)
     
     
     def closeEvent(self, event) -> None:
+        """Quit the app on window close"""
+        
         self.app.quit()
 
 
-def create_windows() -> None:
-    pass
+def create_windows(app: QApplication) -> None:
+    """Create the windows"""
+    
+    # Create global variables
+    global start_window
+    
+    # Set variable values
+    start_window = StartWindow(app)
