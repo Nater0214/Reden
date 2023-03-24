@@ -1,7 +1,6 @@
 # src/p2p/__init__.py
 # Peer-to-peer stuff
 # Written by me
-# I know libraries exist; I wanted to challenge myself
 
 
 # Imports
