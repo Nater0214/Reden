@@ -22,7 +22,7 @@ class LocalNode(Node):
         if json_data:
             node_id = json_data["local-node"]["id"]
         else:
-            node_id = hashlib.new("sha1", datetime.datetime.now()).hexdigest()
+            node_id = hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
             
         super().__init__(socket.gethostbyname(socket.gethostname()), 56787, node_id)
 
