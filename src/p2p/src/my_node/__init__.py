@@ -3,4 +3,10 @@
 
 
 # Imports
-from .node_list import node_list
+from .node import LocalNode, PeerNode
+from .node_list import NodeList
+
+
+# Definitions
+def get_json(local_node: LocalNode, other_nodes: NodeList[PeerNode]) -> dict:
+    pass
