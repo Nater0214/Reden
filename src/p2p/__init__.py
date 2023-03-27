@@ -4,6 +4,7 @@
 
 
 # Imports
+import json
 from os import mkdir, path
 from pathlib import Path
 
@@ -24,6 +25,10 @@ def get_nodes() -> dict | None:
             json.dump({}, file)
         
         return None
+
+    # Return node json data
+    with open(path.join(str(Path.home()), "n-chain", "nodes.json"), 'rt') as file:
+        json.load(file)
 
 
 def start() -> bool:
