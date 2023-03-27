@@ -4,7 +4,8 @@
 
 
 # Imports
-from os.path import exists
+from os import path
+from pathlib import Path
 
 from .src.my_node import node as node
 
@@ -14,9 +15,9 @@ def get_nodes() -> dict | None:
     """Get the nodes"""
     
     # Create the nodes file if it doesn't exist
-    if not exists("store/nodes.json"):
-        with open("store/nodes.json", 'wt') as file:
-            file.write("{}")
+    if not path.exists(path.join(str(Path.home()), "n-chain", "nodes.json")):
+        with open(path.join(str(Path.home()), "n-chain", "nodes.json"), 'x') as _:
+                pass
         
         return None
 
