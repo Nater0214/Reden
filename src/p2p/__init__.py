@@ -36,7 +36,7 @@ def start() -> bool:
     
     # Create local node
     global local_node
-    local_node = my_node.LocalNode()
+    local_node = node.LocalNode()
     
     # Return success
     return True

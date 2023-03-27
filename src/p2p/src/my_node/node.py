@@ -15,10 +15,16 @@ from p2pnetwork.node import Node
 class LocalNode(Node):
     """The local node on this machine"""
 
-    def __init__(self) -> None:
+    def __init__(self, json_data: dict | None = None) -> None:
         """Create a local node on this machine"""
         
-        super().__init__(socket.gethostbyname(socket.gethostname()), 56787, hashlib.new("sha1", datetime.datetime.now()).hexdigest())
+        # Get id from json data, or use hash of current time if unavailable
+        if json_data:
+            node_id = json_data["local-node"]["id"]
+        else:
+            node_id = hashlib.new("sha1", datetime.datetime.now()).hexdigest()
+            
+        super().__init__(socket.gethostbyname(socket.gethostname()), 56787, node_id)
 
 
 class PeerNode(Node):
