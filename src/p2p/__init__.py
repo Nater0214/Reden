@@ -20,8 +20,8 @@ def get_nodes() -> dict | None:
     
     # Create the nodes file if it doesn't exist
     if not path.exists(path.join(str(Path.home()), "n-chain", "nodes.json")):
-        with open(path.join(str(Path.home()), "n-chain", "nodes.json"), 'x') as _:
-                pass
+        with open(path.join(str(Path.home()), "n-chain", "nodes.json"), 'wt') as file:
+            json.dump({}, file)
         
         return None
 
