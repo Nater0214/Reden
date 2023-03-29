@@ -3,8 +3,8 @@
 
 
 # Imports
+from ._node_list import NodeList
 from .node import LocalNode, PeerNode
-from .node_list import NodeList
 
 
 # Definitions
