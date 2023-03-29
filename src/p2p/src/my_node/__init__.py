@@ -8,5 +8,5 @@ from .node_list import NodeList
 
 
 # Definitions
-def get_json(local_node: LocalNode, other_nodes: NodeList[PeerNode]) -> dict:
+def return_json(local_node: LocalNode, other_nodes: NodeList[PeerNode]) -> dict:
     pass
