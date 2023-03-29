@@ -28,18 +28,20 @@ def get_nodes() -> dict | None:
 
     # Return node json data
     with open(path.join(str(Path.home()), "n-chain", "nodes.json"), 'rt') as file:
-        json.load(file)
+        json_data = json.load(file)
+        
+    return json_data
 
 
 def start() -> bool:
     """Start p2p"""
     
     # Get the nodes from the file
-    nodes = get_nodes()
+    nodes_json = get_nodes()
     
     # Create local node
     global local_node
-    local_node = node.LocalNode()
+    local_node = node.LocalNode(nodes_json)
     
     # Return success
     return True
