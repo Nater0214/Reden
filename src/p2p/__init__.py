@@ -8,7 +8,7 @@ import json
 from os import mkdir, path
 from pathlib import Path
 
-from .src.my_node import node as node
+from .src.my_node import NodeList
 
 
 # Definitions
@@ -40,8 +40,8 @@ def start() -> bool:
     nodes_json = get_nodes()
     
     # Create local node
-    global local_node
-    local_node = node.LocalNode(nodes_json)
+    global nodes
+    nodes = NodeList(nodes_json)
     
     # Return success
     return True
