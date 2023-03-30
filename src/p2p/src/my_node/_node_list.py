@@ -3,7 +3,7 @@
 
 
 # Imports
-from .node import PeerNode
+from . import PeerNode
 
 
 # Definitions
