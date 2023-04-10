@@ -30,4 +30,7 @@ class LocalNode(Node):
 class PeerNode(Node):
     """A connected peer node"""
 
-
+    def __init__(self, json_data: dict) -> None:
+        """Create a connected peer node"""
+        
+        super().__init__(json_data["ip"], 56787, json_data["id"])
