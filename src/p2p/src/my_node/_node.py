@@ -26,13 +26,22 @@ class LocalNode(Node):
 
         # Initialize node
         super().__init__(socket.gethostbyname(socket.gethostname()), 56787, node_id)
+    
+    
+    # Methods
+    def connect_with_node(self, node):
+        """Connect with a node"""
+        
+        return super().connect_with_node(node.host, node.port)
 
 
-class PeerNode(Node):
+class PeerNode:
     """A connected peer node"""
 
     def __init__(self, json_data: dict) -> None:
-        """Create a connected peer node"""
+        """Create a connected peer node
+        Really just a container for the data associated with it"""
         
         # Initialize node
-        super().__init__(json_data["ip"], 56787, json_data["id"])
+        self.ip = json_data["ip"]
+        self.id = json_data["id"]

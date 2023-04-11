@@ -3,6 +3,8 @@
 
 
 # Imports
+from random import choice
+
 from . import LocalNode, PeerNode
 
 
@@ -20,3 +22,11 @@ class NodeList(list):
         
         # Get local node
         self.local_node = LocalNode(json_data["local-node"])
+    
+    
+    # Methods
+    def connect_random(self, amount: int = 1) -> None:
+        """Connect with some random known nodes"""
+        
+        for _ in range(amount):
+            self.local_node.connect_with_node(choice(self))
