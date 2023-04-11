@@ -13,9 +13,10 @@ class NodeList(list):
     def __init__(self, json_data: dict) -> None:
         """Create a list of nodes"""
         
-        # Get peer nodes
-        for node_data in json_data["known-nodes"]:
-            self.append(PeerNode(node_data))
+        # Get peer nodes if there are any
+        if json_data["known-nodes"]:
+            for node_data in json_data["known-nodes"]:
+                self.append(PeerNode(node_data))
         
         # Get local node
         self.local_node = LocalNode(json_data["local-node"])
