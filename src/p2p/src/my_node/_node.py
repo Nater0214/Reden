@@ -32,7 +32,7 @@ class LocalNode(Node):
     def connect_with_node(self, node):
         """Connect with a node"""
         
-        return super().connect_with_node(node.host, node.port)
+        return super().connect_with_node(node.host, 56787)
 
 
 class PeerNode:
