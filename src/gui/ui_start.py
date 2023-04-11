@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QMainWindow, QSizePolicy,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QMainWindow,
+    QSizePolicy, QWidget)
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -571,6 +572,41 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
+        self.frame_2 = QFrame(self.centralwidget)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout.addWidget(self.frame_2, 2, 2, 1, 2)
+
+        self.topBar = QFrame(self.centralwidget)
+        self.topBar.setObjectName(u"topBar")
+        self.topBar.setFrameShape(QFrame.StyledPanel)
+        self.topBar.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout.addWidget(self.topBar, 0, 0, 1, 4)
+
+        self.line = QFrame(self.centralwidget)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.VLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+
+        self.gridLayout.addWidget(self.line, 2, 1, 1, 1)
+
+        self.peopleFrame = QFrame(self.centralwidget)
+        self.peopleFrame.setObjectName(u"peopleFrame")
+        self.peopleFrame.setFrameShape(QFrame.StyledPanel)
+        self.peopleFrame.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout.addWidget(self.peopleFrame, 2, 0, 1, 1)
+
+        self.line_2 = QFrame(self.centralwidget)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setFrameShape(QFrame.HLine)
+        self.line_2.setFrameShadow(QFrame.Sunken)
+
+        self.gridLayout.addWidget(self.line_2, 1, 0, 1, 4)
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
