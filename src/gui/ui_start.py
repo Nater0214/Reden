@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QMainWindow,
-    QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QListWidget,
+    QListWidgetItem, QMainWindow, QSizePolicy, QTextEdit,
+    QToolBar, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -572,42 +573,60 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.frame_2 = QFrame(self.centralwidget)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.peopleContainer = QFrame(self.centralwidget)
+        self.peopleContainer.setObjectName(u"peopleContainer")
+        self.peopleContainer.setEnabled(True)
+        self.peopleContainer.setMaximumSize(QSize(275, 16777215))
+        self.peopleContainer.setFrameShape(QFrame.StyledPanel)
+        self.peopleContainer.setFrameShadow(QFrame.Raised)
+        self.verticalLayout = QVBoxLayout(self.peopleContainer)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.listWidget = QListWidget(self.peopleContainer)
+        self.listWidget.setObjectName(u"listWidget")
 
-        self.gridLayout.addWidget(self.frame_2, 2, 2, 1, 2)
+        self.verticalLayout.addWidget(self.listWidget)
 
-        self.topBar = QFrame(self.centralwidget)
-        self.topBar.setObjectName(u"topBar")
-        self.topBar.setFrameShape(QFrame.StyledPanel)
-        self.topBar.setFrameShadow(QFrame.Raised)
 
-        self.gridLayout.addWidget(self.topBar, 0, 0, 1, 4)
-
-        self.line = QFrame(self.centralwidget)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.VLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.gridLayout.addWidget(self.line, 2, 1, 1, 1)
-
-        self.peopleFrame = QFrame(self.centralwidget)
-        self.peopleFrame.setObjectName(u"peopleFrame")
-        self.peopleFrame.setFrameShape(QFrame.StyledPanel)
-        self.peopleFrame.setFrameShadow(QFrame.Raised)
-
-        self.gridLayout.addWidget(self.peopleFrame, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.peopleContainer, 1, 0, 1, 1)
 
         self.line_2 = QFrame(self.centralwidget)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setFrameShape(QFrame.HLine)
         self.line_2.setFrameShadow(QFrame.Sunken)
 
-        self.gridLayout.addWidget(self.line_2, 1, 0, 1, 4)
+        self.gridLayout.addWidget(self.line_2, 0, 0, 1, 4)
+
+        self.line = QFrame(self.centralwidget)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.VLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+
+        self.gridLayout.addWidget(self.line, 1, 1, 1, 1)
+
+        self.messageContainer = QFrame(self.centralwidget)
+        self.messageContainer.setObjectName(u"messageContainer")
+        self.messageContainer.setFrameShape(QFrame.StyledPanel)
+        self.messageContainer.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_2 = QVBoxLayout(self.messageContainer)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.listWidget_2 = QListWidget(self.messageContainer)
+        self.listWidget_2.setObjectName(u"listWidget_2")
+
+        self.verticalLayout_2.addWidget(self.listWidget_2)
+
+        self.textEdit = QTextEdit(self.messageContainer)
+        self.textEdit.setObjectName(u"textEdit")
+        self.textEdit.setMaximumSize(QSize(16777215, 50))
+
+        self.verticalLayout_2.addWidget(self.textEdit)
+
+
+        self.gridLayout.addWidget(self.messageContainer, 1, 2, 1, 2)
 
         MainWindow.setCentralWidget(self.centralwidget)
+        self.toolBar = QToolBar(MainWindow)
+        self.toolBar.setObjectName(u"toolBar")
+        MainWindow.addToolBar(Qt.TopToolBarArea, self.toolBar)
 
         self.retranslateUi(MainWindow)
 
@@ -616,5 +635,6 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 
