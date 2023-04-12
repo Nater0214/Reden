@@ -4,6 +4,8 @@
 
 
 # Imports
+from __future__ import annotations
+
 import datetime
 import hashlib
 import socket
@@ -29,7 +31,7 @@ class LocalNode(Node):
     
     
     # Methods
-    def connect_with_node(self, node):
+    def connect_with_node(self, node: PeerNode) -> bool:
         """Connect with a node"""
         
         return super().connect_with_node(node.host, 56787)
