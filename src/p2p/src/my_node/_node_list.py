@@ -28,7 +28,7 @@ class NodeList(list):
     def connect_random(self, amount: int = 1) -> None:
         """Connect with some random known nodes"""
         
-        for n in range(amount):
+        for _ in range(amount):
             success = False
             while not success:
                 success = self.local_node.connect_with_node(choice(self))
