@@ -22,19 +22,22 @@ class LocalNode(Node):
         
         # Get id from json data, or use hash of current time if unavailable
         if json_data:
-            node_id = json_data["local-node"]["id"]
+            node_id = json_data["id"]
+            node_port = json_data["port"]
         else:
             node_id = hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
+            node_port = 56787
+            
 
         # Initialize node
-        super().__init__(socket.gethostbyname(socket.gethostname()), 56787, node_id)
+        super().__init__(socket.gethostbyname(socket.gethostname()), node_port, node_id)
     
     
     # Methods
     def connect_with_node(self, node: PeerNode) -> bool:
         """Connect with a node"""
         
-        return super().connect_with_node(node.host, 56787)
+        return super().connect_with_node(node.ip, node.port)
 
 
 class PeerNode:
@@ -46,4 +49,5 @@ class PeerNode:
         
         # Initialize node
         self.ip = json_data["ip"]
+        self.port = json_data["port"]
         self.id = json_data["id"]
