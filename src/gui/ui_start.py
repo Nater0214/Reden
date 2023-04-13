@@ -15,15 +15,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QListWidget,
-    QListWidgetItem, QMainWindow, QSizePolicy, QTabWidget,
+from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QGroupBox,
+    QLabel, QListView, QListWidget, QListWidgetItem,
+    QMainWindow, QPushButton, QSizePolicy, QTabWidget,
     QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(700, 500)
+        MainWindow.resize(680, 500)
         MainWindow.setStyleSheet(u"/*Copyright (c) DevSec Studio. All rights reserved.\n"
 "\n"
 "MIT License\n"
@@ -1274,9 +1275,47 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addWidget(self.messageContainer, 0, 1, 1, 1)
 
         self.tabWidget.addTab(self.messagingTab, "")
-        self.tab_2 = QWidget()
-        self.tab_2.setObjectName(u"tab_2")
-        self.tabWidget.addTab(self.tab_2, "")
+        self.nodesTab = QWidget()
+        self.nodesTab.setObjectName(u"nodesTab")
+        self.gridLayout_2 = QGridLayout(self.nodesTab)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.label = QLabel(self.nodesTab)
+        self.label.setObjectName(u"label")
+
+        self.gridLayout_2.addWidget(self.label, 0, 0, 1, 1)
+
+        self.pushButton = QPushButton(self.nodesTab)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.gridLayout_2.addWidget(self.pushButton, 0, 1, 1, 1)
+
+        self.label_2 = QLabel(self.nodesTab)
+        self.label_2.setObjectName(u"label_2")
+
+        self.gridLayout_2.addWidget(self.label_2, 0, 2, 1, 1)
+
+        self.localNodeStats = QGroupBox(self.nodesTab)
+        self.localNodeStats.setObjectName(u"localNodeStats")
+        self.localNodeStats.setMinimumSize(QSize(120, 0))
+
+        self.gridLayout_2.addWidget(self.localNodeStats, 0, 3, 2, 1)
+
+        self.nodeStats = QGroupBox(self.nodesTab)
+        self.nodeStats.setObjectName(u"nodeStats")
+
+        self.gridLayout_2.addWidget(self.nodeStats, 2, 3, 1, 1)
+
+        self.connectedNodesList = QListView(self.nodesTab)
+        self.connectedNodesList.setObjectName(u"connectedNodesList")
+
+        self.gridLayout_2.addWidget(self.connectedNodesList, 1, 2, 2, 1)
+
+        self.knownNodesList = QListWidget(self.nodesTab)
+        self.knownNodesList.setObjectName(u"knownNodesList")
+
+        self.gridLayout_2.addWidget(self.knownNodesList, 1, 0, 2, 2)
+
+        self.tabWidget.addTab(self.nodesTab, "")
 
         self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
 
@@ -1284,7 +1323,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1293,6 +1332,11 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.messagingTab), QCoreApplication.translate("MainWindow", u"Messaging", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Known Nodes", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Add", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Connected Nodes", None))
+        self.localNodeStats.setTitle(QCoreApplication.translate("MainWindow", u"Local Node", None))
+        self.nodeStats.setTitle(QCoreApplication.translate("MainWindow", u"Node Stats", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.nodesTab), QCoreApplication.translate("MainWindow", u"Nodes", None))
     # retranslateUi
 
