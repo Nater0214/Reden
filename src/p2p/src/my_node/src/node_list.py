@@ -1,4 +1,4 @@
-# src/p2p/src/my_node/node_list.py
+# src/p2p/src/my_node/src/node_list.py
 # Contains the NodeList object
 # Will not be used anymore
 
