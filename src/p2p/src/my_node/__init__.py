@@ -4,7 +4,8 @@
 
 # Imports
 from .src.node import LocalNode
-from .src.node_list import NodeList
+
+# from .src.node_list import NodeList
 
 
 # Definitions
