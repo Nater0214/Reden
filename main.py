@@ -8,8 +8,8 @@ import sys
 
 from PySide6 import QtWidgets
 
-import src.gui as gui
-import src.p2p as p2p
+from src import gui as gui
+from src import p2p as p2p
 
 
 # Definitions
@@ -32,8 +32,14 @@ def main() -> None:
     # Show the start window
     gui.start_window.show()
     
-    # Start app and exit with code
-    sys.exit(app.exec())
+    # Start app and get exit code
+    exit_code = app.exec()
+    
+    # Stop p2p
+    p2p.stop()
+    
+    # Exit with code
+    sys.exit(exit_code)
 
 
 # Run

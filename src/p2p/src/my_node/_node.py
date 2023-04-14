@@ -21,33 +21,31 @@ class LocalNode(Node):
         """Create a local node on this machine"""
         
         # Get id from json data, or use hash of current time if unavailable
-        if json_data:
-            node_id = json_data["id"]
-            node_port = json_data["port"]
+        if json_data["local-node"]:
+            node_id = json_data["local-node"]["id"]
+            node_port = json_data["local-node"]["port"]
+        
         else:
             node_id = hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
             node_port = 56787
-            
+
+        # Add known nodes to a list
+        if json_data["known-nodes"]:
+            self.known_nodes = json_data["known-nodes"]
 
         # Initialize node
         super().__init__(socket.gethostbyname(socket.gethostname()), node_port, node_id)
     
     
     # Methods
-    def connect_with_node(self, node: PeerNode) -> bool:
+    def connect_with_node(self, json_data: dict) -> bool:
         """Connect with a node"""
         
-        return super().connect_with_node(node.ip, node.port)
-
-
-class PeerNode:
-    """A connected peer node"""
-
-    def __init__(self, json_data: dict) -> None:
-        """Create a connected peer node
-        Really just a container for the data associated with it"""
+        return super().connect_with_node(json_data["ip"], json_data["port"])
+    
+    
+    def disconnect_all(self):
+        """Disconnect from every node"""
         
-        # Initialize node
-        self.ip = json_data["ip"]
-        self.port = json_data["port"]
-        self.id = json_data["id"]
+        for node in self.nodes_outbound():
+            self.disconnect_with_node(node)

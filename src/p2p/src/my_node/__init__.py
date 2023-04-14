@@ -9,4 +9,6 @@ from ._node_list import NodeList
 
 # Definitions
 def return_json(nodes: NodeList) -> dict:
-    pass
+    """Return the json form of all of the nodes"""
+    
+    json_data = {}

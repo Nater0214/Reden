@@ -8,11 +8,11 @@ import json
 from os import mkdir, path
 from pathlib import Path
 
-from .src.my_node import NodeList
+from .src import my_node as my_node
 
 
 # Definitions
-def get_nodes() -> dict | None:
+def get_nodes_from_json() -> dict | None:
     """Get the nodes"""
     
     # Create n-chain directory if it doesn't exist
@@ -40,11 +40,21 @@ def start() -> bool:
     """Start p2p"""
     
     # Get the nodes from the file
-    nodes_json = get_nodes()
+    nodes_json = get_nodes_from_json()
     
     # Create local node
-    global nodes
-    nodes = NodeList(nodes_json)
+    global local_node
+    local_node = my_node.LocalNode(nodes_json)
     
     # Return success
     return True
+
+
+def stop() -> None:
+    """Stop p2p"""
+    
+    # Disconnect all nodes
+    local_node.disconnect_all()
+    
+    # Get the nodes json
+    local_node.get_json()

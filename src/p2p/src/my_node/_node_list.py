@@ -18,7 +18,7 @@ class NodeList(list):
         # Get peer nodes if there are any
         if json_data["known-nodes"]:
             for node_data in json_data["known-nodes"]:
-                self.append(PeerNode(node_data))
+                self.append(node_data)
         
         # Get local node
         self.local_node = LocalNode(json_data["local-node"])
@@ -32,3 +32,9 @@ class NodeList(list):
             success = False
             while not success:
                 success = self.local_node.connect_with_node(choice(self))
+    
+    
+    def disconnect_all(self) -> None:
+        """Disconnect from every node"""
+        
+        self.local_node.disconnect_all()
