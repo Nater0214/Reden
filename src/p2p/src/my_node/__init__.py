@@ -3,7 +3,7 @@
 
 
 # Imports
-from .src.node import LocalNode, PeerNode
+from .src.node import LocalNode
 from .src.node_list import NodeList
 
 
