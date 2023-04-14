@@ -11,6 +11,10 @@ from pathlib import Path
 from .src import my_node as my_node
 
 
+# Variables
+local_node = None
+
+
 # Definitions
 def get_nodes_from_json() -> dict | None:
     """Get the nodes"""
