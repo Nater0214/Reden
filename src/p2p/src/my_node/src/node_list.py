@@ -6,7 +6,7 @@
 # Imports
 from random import choice
 
-from . import LocalNode, PeerNode
+from .. import LocalNode, PeerNode
 
 
 # Definitions

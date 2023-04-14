@@ -5,7 +5,7 @@
 # Imports
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from . import ui_start
+from .src import ui_start
 
 # Definitions
 
