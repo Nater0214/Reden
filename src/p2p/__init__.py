@@ -9,10 +9,7 @@ from os import mkdir, path
 from pathlib import Path
 
 from .src import my_node as my_node
-
-
-# Variables
-local_node = None
+from src.thread_wrap import thread_wrap
 
 
 # Definitions
@@ -40,7 +37,7 @@ def get_nodes_from_json() -> dict:
     return json_data
 
 
-def start() -> bool:
+def start() -> my_node.LocalNode:
     """Start p2p"""
     
     # Get the nodes from the file
@@ -50,8 +47,16 @@ def start() -> bool:
     global local_node
     local_node = my_node.LocalNode(nodes_json)
     
+    # Start the p2p "doing stuff" loop
+    _p2p_loop()
+    
     # Return local node
     return local_node
+
+
+@thread_wrap("P2P-Thread")
+def _p2p_loop() -> None:
+    pass
 
 
 def stop() -> None:
