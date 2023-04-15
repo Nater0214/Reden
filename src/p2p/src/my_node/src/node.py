@@ -22,37 +22,21 @@ class LocalNode(Node):
         
         # Get id from json data, or use hash of current time if unavailable
         if json_data["local-node"]:
-            self._id = json_data["local-node"]["id"]
-            self._port = json_data["local-node"]["port"]
+            node_id = json_data["local-node"]["id"]
+            node_port = json_data["local-node"]["port"]
         
         else:
-            self._id = hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
-            self._port = 56787
+            node_id = hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
+            node_port = 56787
         
-        self._ip = socket.gethostbyname(socket.gethostname())
+        self.ip = socket.gethostbyname(socket.gethostname())
 
         # Add known nodes to a list
         if json_data["known-nodes"]:
             self.known_nodes = json_data["known-nodes"]
 
         # Initialize node
-        super().__init__(socket.gethostbyname(socket.gethostname()), self._port, self._id)
-    
-    
-    # Properties
-    @property
-    def id(self) -> str:
-        return self._id
-    
-    
-    @property
-    def port(self) -> int:
-        return self._port
-    
-    
-    @property
-    def  ip(self) -> str:
-        return self._ip
+        super().__init__(self.ip, node_port, node_id)
     
     
     # Methods
