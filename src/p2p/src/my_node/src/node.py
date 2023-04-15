@@ -1,6 +1,5 @@
 # src/p2p/src/my_node/src/node.py
 # Handles nodes and connections between nodes
-# If this gets to complicated I'll make it a package
 
 
 # Imports
