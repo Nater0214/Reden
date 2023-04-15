@@ -65,5 +65,5 @@ class LocalNode(Node):
     def disconnect_all(self):
         """Disconnect from every node"""
         
-        for node in self.nodes_outbound():
+        for node in self.nodes_outbound:
             self.disconnect_with_node(node)
