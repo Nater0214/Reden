@@ -16,7 +16,7 @@ local_node = None
 
 
 # Definitions
-def get_nodes_from_json() -> dict | None:
+def get_nodes_from_json() -> dict:
     """Get the nodes"""
     
     # Create n-chain directory if it doesn't exist
