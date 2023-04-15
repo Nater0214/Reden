@@ -26,11 +26,11 @@ def get_nodes_from_json() -> dict | None:
     # Create the nodes file if it doesn't exist
     if not path.exists(path.join(str(Path.home()), "n-chain", "nodes.json")):
         with open(path.join(str(Path.home()), "n-chain", "nodes.json"), 'wt') as file:
-            json.dump(\
+            json.dump(
                 {
                     "local-node": None,
                     "known-nodes": None
-                },\
+                },
             file)
 
     # Return node json data
