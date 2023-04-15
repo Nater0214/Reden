@@ -17,17 +17,13 @@ def main() -> None:
     """Main"""
     
     # Start p2p
-    success = p2p.start()
-    
-    # Raise error if no success
-    if not success:
-        raise p2p.exceptions.P2PStartError("P2P was not able to start.")
+    local_node = p2p.start()
     
     # Create Qt app
     app = QtWidgets.QApplication(sys.argv)
     
     # Create the windows
-    gui.create_windows(app)
+    gui.create_windows(app, local_node)
     
     # Show the start window
     gui.start_window.show()

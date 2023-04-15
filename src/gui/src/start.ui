@@ -1325,7 +1325,7 @@ QStatusBar
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLabel" name="label_10">
+            <widget class="QLabel" name="knownNodesStat">
              <property name="text">
               <string>nil</string>
              </property>
@@ -1339,7 +1339,7 @@ QStatusBar
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLabel" name="label_12">
+            <widget class="QLabel" name="connectedNodesStat">
              <property name="text">
               <string>nil</string>
              </property>
@@ -1375,14 +1375,14 @@ QStatusBar
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLabel" name="label_5">
+            <widget class="QLabel" name="localNodeIPStat">
              <property name="text">
               <string>nil</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLabel" name="label_6">
+            <widget class="QLabel" name="localNodePortStat">
              <property name="text">
               <string>nil</string>
              </property>
@@ -1396,7 +1396,7 @@ QStatusBar
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLabel" name="label_8">
+            <widget class="QLabel" name="localNodeIDStat">
              <property name="text">
               <string>nil</string>
              </property>
@@ -1406,6 +1406,11 @@ QStatusBar
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="settingsTab">
+       <attribute name="title">
+        <string>Settings</string>
+       </attribute>
       </widget>
      </widget>
     </item>

@@ -1316,20 +1316,20 @@ class Ui_MainWindow(object):
 
         self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_9)
 
-        self.label_10 = QLabel(self.nodeStats)
-        self.label_10.setObjectName(u"label_10")
+        self.knownNodesStat = QLabel(self.nodeStats)
+        self.knownNodesStat.setObjectName(u"knownNodesStat")
 
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.label_10)
+        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.knownNodesStat)
 
         self.label_11 = QLabel(self.nodeStats)
         self.label_11.setObjectName(u"label_11")
 
         self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_11)
 
-        self.label_12 = QLabel(self.nodeStats)
-        self.label_12.setObjectName(u"label_12")
+        self.connectedNodesStat = QLabel(self.nodeStats)
+        self.connectedNodesStat.setObjectName(u"connectedNodesStat")
 
-        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.label_12)
+        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.connectedNodesStat)
 
 
         self.gridLayout_2.addWidget(self.nodeStats, 2, 4, 1, 1)
@@ -1349,30 +1349,33 @@ class Ui_MainWindow(object):
 
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_4)
 
-        self.label_5 = QLabel(self.localNodeStats)
-        self.label_5.setObjectName(u"label_5")
+        self.localNodeIPStat = QLabel(self.localNodeStats)
+        self.localNodeIPStat.setObjectName(u"localNodeIPStat")
 
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.label_5)
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.localNodeIPStat)
 
-        self.label_6 = QLabel(self.localNodeStats)
-        self.label_6.setObjectName(u"label_6")
+        self.localNodePortStat = QLabel(self.localNodeStats)
+        self.localNodePortStat.setObjectName(u"localNodePortStat")
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.label_6)
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.localNodePortStat)
 
         self.label_7 = QLabel(self.localNodeStats)
         self.label_7.setObjectName(u"label_7")
 
         self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label_7)
 
-        self.label_8 = QLabel(self.localNodeStats)
-        self.label_8.setObjectName(u"label_8")
+        self.localNodeIDStat = QLabel(self.localNodeStats)
+        self.localNodeIDStat.setObjectName(u"localNodeIDStat")
 
-        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.label_8)
+        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.localNodeIDStat)
 
 
         self.gridLayout_2.addWidget(self.localNodeStats, 0, 4, 2, 1)
 
         self.tabWidget.addTab(self.nodesTab, "")
+        self.settingsTab = QWidget()
+        self.settingsTab.setObjectName(u"settingsTab")
+        self.tabWidget.addTab(self.settingsTab, "")
 
         self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
 
@@ -1394,16 +1397,17 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Connected Nodes", None))
         self.nodeStats.setTitle(QCoreApplication.translate("MainWindow", u"Node Stats", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Known nodes:", None))
-        self.label_10.setText(QCoreApplication.translate("MainWindow", u"nil", None))
+        self.knownNodesStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Connected nodes:", None))
-        self.label_12.setText(QCoreApplication.translate("MainWindow", u"nil", None))
+        self.connectedNodesStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
         self.localNodeStats.setTitle(QCoreApplication.translate("MainWindow", u"Local Node", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"IP:", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Port:", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"nil", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"nil", None))
+        self.localNodeIPStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
+        self.localNodePortStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"ID:", None))
-        self.label_8.setText(QCoreApplication.translate("MainWindow", u"nil", None))
+        self.localNodeIDStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.nodesTab), QCoreApplication.translate("MainWindow", u"Nodes", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.settingsTab), QCoreApplication.translate("MainWindow", u"Settings", None))
     # retranslateUi
 

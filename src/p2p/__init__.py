@@ -50,8 +50,8 @@ def start() -> bool:
     global local_node
     local_node = my_node.LocalNode(nodes_json)
     
-    # Return success
-    return True
+    # Return local node
+    return local_node
 
 
 def stop() -> None:
