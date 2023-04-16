@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'start.ui'
+## Form generated from reading UI file 'add_node.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.0
 ##
@@ -15,16 +15,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFormLayout, QFrame, QGridLayout,
-    QGroupBox, QLabel, QListView, QListWidget,
-    QListWidgetItem, QMainWindow, QPushButton, QSizePolicy,
-    QTabWidget, QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFormLayout, QLabel, QLineEdit,
+    QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(680, 500)
+        MainWindow.resize(344, 276)
         MainWindow.setStyleSheet(u"/*Copyright (c) DevSec Studio. All rights reserved.\n"
 "\n"
 "MIT License\n"
@@ -1239,175 +1238,60 @@ class Ui_MainWindow(object):
 "")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.gridLayout = QGridLayout(self.centralwidget)
-        self.gridLayout.setSpacing(0)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(-1, -1, 0, 0)
-        self.tabWidget = QTabWidget(self.centralwidget)
-        self.tabWidget.setObjectName(u"tabWidget")
-        self.messagingTab = QWidget()
-        self.messagingTab.setObjectName(u"messagingTab")
-        self.gridLayout_3 = QGridLayout(self.messagingTab)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.listWidget = QListWidget(self.messagingTab)
-        self.listWidget.setObjectName(u"listWidget")
-
-        self.gridLayout_3.addWidget(self.listWidget, 0, 0, 1, 1)
-
-        self.messageContainer = QFrame(self.messagingTab)
-        self.messageContainer.setObjectName(u"messageContainer")
-        self.messageContainer.setFrameShape(QFrame.StyledPanel)
-        self.messageContainer.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_2 = QVBoxLayout(self.messageContainer)
-        self.verticalLayout_2.setSpacing(0)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.listWidget_2 = QListWidget(self.messageContainer)
-        self.listWidget_2.setObjectName(u"listWidget_2")
-
-        self.verticalLayout_2.addWidget(self.listWidget_2)
-
-        self.textEdit = QTextEdit(self.messageContainer)
-        self.textEdit.setObjectName(u"textEdit")
-        self.textEdit.setMaximumSize(QSize(16777215, 50))
-
-        self.verticalLayout_2.addWidget(self.textEdit)
-
-
-        self.gridLayout_3.addWidget(self.messageContainer, 0, 1, 1, 1)
-
-        self.tabWidget.addTab(self.messagingTab, "")
-        self.nodesTab = QWidget()
-        self.nodesTab.setObjectName(u"nodesTab")
-        self.gridLayout_2 = QGridLayout(self.nodesTab)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.label = QLabel(self.nodesTab)
+        self.formLayout = QFormLayout(self.centralwidget)
+        self.formLayout.setObjectName(u"formLayout")
+        self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
 
-        self.gridLayout_2.addWidget(self.label, 0, 0, 1, 1)
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label)
 
-        self.addNodeButton = QPushButton(self.nodesTab)
-        self.addNodeButton.setObjectName(u"addNodeButton")
+        self.IPInput = QLineEdit(self.centralwidget)
+        self.IPInput.setObjectName(u"IPInput")
 
-        self.gridLayout_2.addWidget(self.addNodeButton, 0, 1, 1, 1)
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.IPInput)
 
-        self.label_2 = QLabel(self.nodesTab)
+        self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
 
-        self.gridLayout_2.addWidget(self.label_2, 0, 2, 1, 1)
+        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label_2)
 
-        self.knownNodesList = QListWidget(self.nodesTab)
-        self.knownNodesList.setObjectName(u"knownNodesList")
+        self.portInput = QLineEdit(self.centralwidget)
+        self.portInput.setObjectName(u"portInput")
 
-        self.gridLayout_2.addWidget(self.knownNodesList, 1, 0, 2, 2)
+        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.portInput)
 
-        self.connectedNodesList = QListView(self.nodesTab)
-        self.connectedNodesList.setObjectName(u"connectedNodesList")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.gridLayout_2.addWidget(self.connectedNodesList, 1, 2, 2, 1)
+        self.formLayout.setItem(0, QFormLayout.SpanningRole, self.verticalSpacer)
 
-        self.nodeStats = QGroupBox(self.nodesTab)
-        self.nodeStats.setObjectName(u"nodeStats")
-        self.nodeStats.setMinimumSize(QSize(150, 0))
-        self.formLayout_2 = QFormLayout(self.nodeStats)
-        self.formLayout_2.setObjectName(u"formLayout_2")
-        self.label_9 = QLabel(self.nodeStats)
-        self.label_9.setObjectName(u"label_9")
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_9)
+        self.formLayout.setItem(5, QFormLayout.SpanningRole, self.verticalSpacer_2)
 
-        self.knownNodesStat = QLabel(self.nodeStats)
-        self.knownNodesStat.setObjectName(u"knownNodesStat")
+        self.addButton = QPushButton(self.centralwidget)
+        self.addButton.setObjectName(u"addButton")
 
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.knownNodesStat)
+        self.formLayout.setWidget(4, QFormLayout.SpanningRole, self.addButton)
 
-        self.label_11 = QLabel(self.nodeStats)
-        self.label_11.setObjectName(u"label_11")
+        self.statusLabel = QLabel(self.centralwidget)
+        self.statusLabel.setObjectName(u"statusLabel")
+        self.statusLabel.setMouseTracking(False)
+        self.statusLabel.setAlignment(Qt.AlignCenter)
 
-        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_11)
-
-        self.connectedNodesStat = QLabel(self.nodeStats)
-        self.connectedNodesStat.setObjectName(u"connectedNodesStat")
-
-        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.connectedNodesStat)
-
-
-        self.gridLayout_2.addWidget(self.nodeStats, 2, 4, 1, 1)
-
-        self.localNodeStats = QGroupBox(self.nodesTab)
-        self.localNodeStats.setObjectName(u"localNodeStats")
-        self.localNodeStats.setMinimumSize(QSize(120, 0))
-        self.formLayout = QFormLayout(self.localNodeStats)
-        self.formLayout.setObjectName(u"formLayout")
-        self.label_3 = QLabel(self.localNodeStats)
-        self.label_3.setObjectName(u"label_3")
-
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_3)
-
-        self.label_4 = QLabel(self.localNodeStats)
-        self.label_4.setObjectName(u"label_4")
-
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_4)
-
-        self.localNodeIPStat = QLabel(self.localNodeStats)
-        self.localNodeIPStat.setObjectName(u"localNodeIPStat")
-
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.localNodeIPStat)
-
-        self.localNodePortStat = QLabel(self.localNodeStats)
-        self.localNodePortStat.setObjectName(u"localNodePortStat")
-
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.localNodePortStat)
-
-        self.label_7 = QLabel(self.localNodeStats)
-        self.label_7.setObjectName(u"label_7")
-
-        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label_7)
-
-        self.localNodeIDStat = QLabel(self.localNodeStats)
-        self.localNodeIDStat.setObjectName(u"localNodeIDStat")
-
-        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.localNodeIDStat)
-
-
-        self.gridLayout_2.addWidget(self.localNodeStats, 0, 4, 2, 1)
-
-        self.tabWidget.addTab(self.nodesTab, "")
-        self.settingsTab = QWidget()
-        self.settingsTab.setObjectName(u"settingsTab")
-        self.tabWidget.addTab(self.settingsTab, "")
-
-        self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
+        self.formLayout.setWidget(3, QFormLayout.SpanningRole, self.statusLabel)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(1)
-
-
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Reden", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.messagingTab), QCoreApplication.translate("MainWindow", u"Messaging", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Known Nodes", None))
-        self.addNodeButton.setText(QCoreApplication.translate("MainWindow", u"Add", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Connected Nodes", None))
-        self.nodeStats.setTitle(QCoreApplication.translate("MainWindow", u"Node Stats", None))
-        self.label_9.setText(QCoreApplication.translate("MainWindow", u"Known nodes:", None))
-        self.knownNodesStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
-        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Connected nodes:", None))
-        self.connectedNodesStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
-        self.localNodeStats.setTitle(QCoreApplication.translate("MainWindow", u"Local Node", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"IP:", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Port:", None))
-        self.localNodeIPStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
-        self.localNodePortStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"ID:", None))
-        self.localNodeIDStat.setText(QCoreApplication.translate("MainWindow", u"nil", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.nodesTab), QCoreApplication.translate("MainWindow", u"Nodes", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.settingsTab), QCoreApplication.translate("MainWindow", u"Settings", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Add node - Reden", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"IP:", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Port:", None))
+        self.addButton.setText(QCoreApplication.translate("MainWindow", u"Add", None))
+        self.statusLabel.setText(QCoreApplication.translate("MainWindow", u"Click \"Add\" to add a node. Window will close on success.", None))
     # retranslateUi
 
