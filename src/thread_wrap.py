@@ -3,6 +3,7 @@
 
 
 # Imports
+from functools import partial
 from threading import Thread
 
 
@@ -32,6 +33,10 @@ def thread_wrap(thread_name: str):
 
                 # Start the thread
                 self.start()
+            
+            
+            def __get__(self, instance, owner):
+                return partial(self.__call__, instance)
         
         return Wrapper(func)
     
