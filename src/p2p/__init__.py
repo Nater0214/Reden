@@ -47,16 +47,11 @@ def start() -> my_node.LocalNode:
     global local_node
     local_node = my_node.LocalNode(nodes_json)
     
-    # Start the p2p "doing stuff" loop
-    _p2p_loop()
+    # Start the local node
+    local_node.run()
     
     # Return local node
     return local_node
-
-
-@thread_wrap("P2P-Thread")
-def _p2p_loop() -> None:
-    pass
 
 
 def stop() -> None:
