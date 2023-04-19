@@ -3,3 +3,4 @@
 .pytest_cache
 pytest.ini
 *_test.py
+tests
