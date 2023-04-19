@@ -27,6 +27,7 @@ def thread_wrap(thread_name: str):
 
 
             def __call__(self, *args, **kwargs):
+                """Start the thread when called"""
 
                 # Initialize the thread
                 super().__init__(target=self._func, name=self._thread_name, args=args, kwargs=kwargs)
@@ -35,7 +36,9 @@ def thread_wrap(thread_name: str):
                 self.start()
             
             
-            def __get__(self, instance, owner):
+            def __get__(self, instance, owner) -> partial:
+                """Compatibility with objects"""
+                
                 return partial(self.__call__, instance)
         
         return Wrapper(func)
