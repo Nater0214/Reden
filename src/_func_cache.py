@@ -14,13 +14,13 @@ def func_cache():
     Just decorate the function, and call it like normal!
     Change history_len to cache more or less return value/arg pairs"""
     
-    def decorator(func):
+    def decorator(func: callable) -> object:
         """The decorator itself"""
         
         class Wrapper:
             """The wrapper itself"""
 
-            def __init__(self, func) -> None:
+            def __init__(self, func: callable) -> None:
                 """Create the wrapper"""
 
                 # Set variables
