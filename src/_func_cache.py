@@ -3,8 +3,9 @@
 
 
 # Imports
-from functools import partial
 import hashlib
+from functools import partial
+from typing import Any
 
 
 # Definitions
@@ -27,7 +28,7 @@ def func_cache():
                 self._cache = {}
 
 
-            def __call__(self, *args, **kwargs):
+            def __call__(self, *args, **kwargs) -> Any:
                 """Run the function and cache, or return cached value"""
                 
                 try:
