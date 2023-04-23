@@ -1,6 +1,7 @@
-.vscode
+*_test.py
 *__pycache__
 .pytest_cache
-pytest.ini
-*_test.py
+.vscode
+build
 tests
+pytest.ini
