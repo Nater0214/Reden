@@ -1402,22 +1402,12 @@ class Ui_MainWindow(object):
         self.groupBox.setObjectName(u"groupBox")
         self.formLayout_4 = QFormLayout(self.groupBox)
         self.formLayout_4.setObjectName(u"formLayout_4")
-        self.label_6 = QLabel(self.groupBox)
-        self.label_6.setObjectName(u"label_6")
-
-        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_6)
-
-        self.pushButton = QPushButton(self.groupBox)
-        self.pushButton.setObjectName(u"pushButton")
-
-        self.formLayout_4.setWidget(0, QFormLayout.FieldRole, self.pushButton)
-
 
         self.gridLayout_4.addWidget(self.groupBox, 0, 0, 1, 1)
 
         self.saveSettingsButton = QPushButton(self.settingsTab)
         self.saveSettingsButton.setObjectName(u"saveSettingsButton")
-        self.saveSettingsButton.setEnabled(False)
+        self.saveSettingsButton.setEnabled(True)
 
         self.gridLayout_4.addWidget(self.saveSettingsButton, 1, 0, 1, 2)
 
@@ -1458,8 +1448,6 @@ class Ui_MainWindow(object):
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Network Settings", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Prefered Network Interface:", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Node Settings", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.saveSettingsButton.setText(QCoreApplication.translate("MainWindow", u"Save", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.settingsTab), QCoreApplication.translate("MainWindow", u"Settings", None))
     # retranslateUi

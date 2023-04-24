@@ -1,0 +1,51 @@
+# src/settings.py
+# Stuff for handling settings
+
+
+# Imports
+import json
+import os
+
+from src import func_cache
+
+
+# Definitions
+@func_cache()
+def _get_settings_path() -> str:
+    """Get the path to the settings file"""
+    
+    return os.path.join(os.path.realpath(os.path.dirname(__name__)), "store", "settings.json")
+
+
+def get_setting_value(name: str) -> None | int | str | list | dict:
+    """Get a settings value by it's name"""
+    
+    # Get json from from file
+    with open(_get_settings_path(), 'rt') as file:
+        json_data = json.load(file)
+    
+    # Try to get value, raise error if it doesn't exist
+    try:
+        value = json_data[name]
+    except KeyError:
+        raise ValueError(f"No setting with name '{name}' exists")
+    
+    return value
+
+
+def set_setting_value(name: str, value: None | int | str | list | dict) -> None:
+    """Update a settings value by it's name"""
+    
+    # Make sure setting exists
+    get_setting_value(name)
+    
+    # Get json from from file
+    with open(_get_settings_path(), 'rt') as file:
+        json_data = json.load(file)
+    
+    # Change value
+    json_data[name] = value
+    
+    # Write json to file
+    with open(_get_settings_path(), 'wt') as file:
+        json.dump(json_data, file, indent=4)

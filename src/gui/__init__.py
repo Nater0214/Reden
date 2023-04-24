@@ -3,13 +3,15 @@
 
 
 # Imports
+from time import sleep
+
+from getmac import get_mac_address
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from src import get_ifaces, thread_wrap
+from src import get_ifaces, thread_wrap, settings
 
 from .src import ui_add_node, ui_start
-from getmac import get_mac_address
-from time import sleep
+
 
 # Definitions
 class InputError(Exception):
@@ -32,6 +34,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Setup UI
         super(StartWindow, self).__init__()
         self.setupUi(self)
+        self.values_ready = False
         self.update_ui_values()
         
         # Set app variable
@@ -40,10 +43,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Button handlers
         self.nodeStartButton.clicked.connect(self.start_local_node)
         self.addNodeButton.clicked.connect(self.open_add_node_window)
-        
-        # Settings update events
-        for item in ["interfaceBox"]:
-            getattr(self, item).currentIndexChanged.connect(self.set_settings_change)
+        self.saveSettingsButton.clicked.connect(self.save_settings)
     
     
     # Events
@@ -56,14 +56,19 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
     # Button methods
     def start_local_node(self) -> None:
         """Start the local node"""
-        
-        pass
 
 
     def open_add_node_window(self) -> None:
         """Open the add node window"""
         
         add_node_window.show()
+
+    
+    def save_settings(self) -> None:
+        """Save the settings"""
+        
+        # Interface
+        settings.set_setting_value("interface", self.interfaceBox.currentText())
 
 
     # Methods
@@ -79,13 +84,20 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Flag values as not ready
         self.values_ready = False
+        self.saveSettingsButton.setEnabled(False)
         
         # Update settings selection
+        self.interfaceBox.clear()
         for iface in get_ifaces().keys():
             self.interfaceBox.addItem(iface)
+        if (iface := settings.get_setting_value("interface")):
+            self.interfaceBox.setCurrentText(iface)
+        else:
+            self.interfaceBox.setCurrentIndex(0)
         
         # Flag values as ready
         self.values_ready = True
+        self.saveSettingsButton.setEnabled(True)
     
     
     def await_values_ready(self) -> None:
@@ -94,12 +106,6 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Wait for value
         while not self.values_ready:
             sleep(0.1)
-    
-    
-    def set_settings_change(self) -> None:
-        """Set the settings as changed"""
-        
-        self.saveSettingsButton.setEnabled(True)
 
 
 class AddNodeWindow(QMainWindow, ui_add_node.Ui_MainWindow):

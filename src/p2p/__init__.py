@@ -11,6 +11,10 @@ from pathlib import Path
 from .src import my_node as my_node
 
 
+# Variables
+local_node = None
+
+
 # Definitions
 def get_nodes_from_json(mac: str) -> dict:
     """Get the nodes"""
@@ -56,8 +60,10 @@ def start(mac: str) -> my_node.LocalNode:
 def conclude() -> None:
     """Stop p2p"""
     
-    # Disconnect all nodes
-    local_node.disconnect_all()
+    # Only if the local node exists
+    if local_node:
+        # Disconnect all nodes
+        local_node.disconnect_all()
     
-    # Get the nodes json
-    local_node.get_json()
+        # Get the nodes json
+        local_node.get_json()
