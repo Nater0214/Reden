@@ -1,2 +1,4 @@
-PySide6
+getmac
+ifcfg
 p2pnetwork
+PySide6
