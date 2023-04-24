@@ -8,7 +8,7 @@ from time import sleep
 from getmac import get_mac_address
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from src import get_ifaces, thread_wrap, settings
+from src import get_ifaces, p2p, settings, thread_wrap
 
 from .src import ui_add_node, ui_start
 
@@ -56,6 +56,19 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
     # Button methods
     def start_local_node(self) -> None:
         """Start the local node"""
+        
+        # Get the interface
+        iface = settings.get_setting_value("interface")
+        
+        # Get the mac address of the default gateway
+        mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
+        
+        # Start the local node
+        global local_node
+        local_node = p2p.start(''.join(mac.split(':')))
+        
+        # Update the ui values
+        self.update_ui_values()
 
 
     def open_add_node_window(self) -> None:
@@ -81,6 +94,13 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
             self.localNodeIPStat.setText(local_node.ip)
             self.localNodePortStat.setText(str(local_node.port))
             self.localNodeIDStat.setText(local_node.id)
+        
+        # Disable node start button if no interface
+        if not settings.get_setting_value("interface"):
+            self.nodeStartButton.setEnabled(False)
+            
+        else:
+            self.nodeStartButton.setEnabled(True)
         
         # Flag values as not ready
         self.values_ready = False
