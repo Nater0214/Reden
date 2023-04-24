@@ -3,5 +3,7 @@
 .pytest_cache
 .vscode
 build
+dist
 tests
 pytest.ini
+reden.spec
