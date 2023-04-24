@@ -1209,19 +1209,10 @@ QStatusBar
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <property name="rightMargin">
-     <number>0</number>
-    </property>
-    <property name="bottomMargin">
-     <number>0</number>
-    </property>
-    <property name="spacing">
-     <number>0</number>
-    </property>
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="messagingTab">
        <attribute name="title">
@@ -1278,76 +1269,6 @@ QStatusBar
         <string>Nodes</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Known Nodes</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="addNodeButton">
-          <property name="text">
-           <string>Add</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Connected Nodes</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" rowspan="2" colspan="2">
-         <widget class="QListWidget" name="knownNodesList"/>
-        </item>
-        <item row="1" column="2" rowspan="2">
-         <widget class="QListView" name="connectedNodesList"/>
-        </item>
-        <item row="2" column="4">
-         <widget class="QGroupBox" name="nodeStats">
-          <property name="minimumSize">
-           <size>
-            <width>150</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Node Stats</string>
-          </property>
-          <layout class="QFormLayout" name="formLayout_2">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>Known nodes:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="knownNodesStat">
-             <property name="text">
-              <string>nil</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>Connected nodes:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="connectedNodesStat">
-             <property name="text">
-              <string>nil</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item row="0" column="4" rowspan="2">
          <widget class="QGroupBox" name="localNodeStats">
           <property name="minimumSize">
@@ -1377,14 +1298,14 @@ QStatusBar
            <item row="0" column="1">
             <widget class="QLabel" name="localNodeIPStat">
              <property name="text">
-              <string>nil</string>
+              <string>None</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
             <widget class="QLabel" name="localNodePortStat">
              <property name="text">
-              <string>nil</string>
+              <string>None</string>
              </property>
             </widget>
            </item>
@@ -1398,11 +1319,88 @@ QStatusBar
            <item row="2" column="1">
             <widget class="QLabel" name="localNodeIDStat">
              <property name="text">
-              <string>nil</string>
+              <string>None</string>
              </property>
             </widget>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item row="1" column="2" rowspan="3">
+         <widget class="QListView" name="connectedNodesList"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Known Nodes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="4">
+         <widget class="QGroupBox" name="nodeStats">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Node Stats</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Known nodes:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="knownNodesStat">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>Connected nodes:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="connectedNodesStat">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Connected Nodes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" rowspan="3" colspan="2">
+         <widget class="QListWidget" name="knownNodesList"/>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="addNodeButton">
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="4">
+         <widget class="QPushButton" name="nodeStartButton">
+          <property name="text">
+           <string>Start Node</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -1411,6 +1409,45 @@ QStatusBar
        <attribute name="title">
         <string>Settings</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="1">
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>Network Settings</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_3">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Prefered Network Interface:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="interfaceBox"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>Node Settings</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_4"/>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QPushButton" name="saveSettingsButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

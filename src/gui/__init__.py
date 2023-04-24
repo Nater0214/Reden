@@ -5,8 +5,11 @@
 # Imports
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from .src import ui_add_node, ui_start
+from src import get_ifaces, thread_wrap
 
+from .src import ui_add_node, ui_start
+from getmac import get_mac_address
+from time import sleep
 
 # Definitions
 class InputError(Exception):
@@ -35,7 +38,12 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         self.app = app
         
         # Button handlers
+        self.nodeStartButton.clicked.connect(self.start_local_node)
         self.addNodeButton.clicked.connect(self.open_add_node_window)
+        
+        # Settings update events
+        for item in ["interfaceBox"]:
+            getattr(self, item).currentIndexChanged.connect(self.set_settings_change)
     
     
     # Events
@@ -46,6 +54,12 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
     
     
     # Button methods
+    def start_local_node(self) -> None:
+        """Start the local node"""
+        
+        pass
+
+
     def open_add_node_window(self) -> None:
         """Open the add node window"""
         
@@ -53,10 +67,39 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
 
 
     # Methods
+    @thread_wrap("UiUpdateThread")
     def update_ui_values(self) -> None:
-        self.localNodeIPStat.setText(local_node.ip)
-        self.localNodePortStat.setText(str(local_node.port))
-        self.localNodeIDStat.setText(local_node.id)
+        """Update the UI values"""
+        
+        # Update stats
+        if local_node:
+            self.localNodeIPStat.setText(local_node.ip)
+            self.localNodePortStat.setText(str(local_node.port))
+            self.localNodeIDStat.setText(local_node.id)
+        
+        # Flag values as not ready
+        self.values_ready = False
+        
+        # Update settings selection
+        for iface in get_ifaces().keys():
+            self.interfaceBox.addItem(iface)
+        
+        # Flag values as ready
+        self.values_ready = True
+    
+    
+    def await_values_ready(self) -> None:
+        """Wait for ui values to be ready"""
+        
+        # Wait for value
+        while not self.values_ready:
+            sleep(0.1)
+    
+    
+    def set_settings_change(self) -> None:
+        """Set the settings as changed"""
+        
+        self.saveSettingsButton.setEnabled(True)
 
 
 class AddNodeWindow(QMainWindow, ui_add_node.Ui_MainWindow):
@@ -124,7 +167,7 @@ class AddNodeWindow(QMainWindow, ui_add_node.Ui_MainWindow):
             self.close()
 
 
-def create_windows(app: QApplication, local_node_) -> None:
+def create_windows(app: QApplication) -> None:
     """Create the windows"""
     
     # Create global variables
@@ -133,6 +176,6 @@ def create_windows(app: QApplication, local_node_) -> None:
     global local_node
     
     # Set variable values
-    local_node = local_node_
+    local_node = None
     start_window = StartWindow(app)
     add_node_window = AddNodeWindow()

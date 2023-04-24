@@ -7,10 +7,12 @@ from __future__ import annotations
 
 import datetime
 import hashlib
-from random import choice
 import socket
+from random import choice
 
 from p2pnetwork.node import Node
+
+from src import thread_wrap
 
 
 # Definitions
@@ -20,7 +22,11 @@ class LocalNode(Node):
     def __init__(self, node_json: dict) -> None:
         """Create a local node on this machine"""
         
-        # Get id from json data, or use hash of current time if unavailable
+        # Skip if no json provided (means multiple gateways found, and one could not be automatically selected)
+        if not node_json:
+            return
+        
+        # Get node information from json
         if node_json["local-node"]:
             node_id = node_json["local-node"]["id"]
             node_port = node_json["local-node"]["port"]
@@ -50,11 +56,13 @@ class LocalNode(Node):
     
     # Methods
     def add_known_node(self, node: Node) -> None:
-        self.known_nodes.append({
-            "ip": node.ip,
-            "port": node.port,
-            "id": node.node_id
-        })
+        self.known_nodes.append(
+            {
+                "ip": node.ip,
+                "port": node.port,
+                "id": node.node_id
+            }
+        )
 
 
     def connect_with_node(self, json_data: dict) -> bool:
@@ -82,3 +90,8 @@ class LocalNode(Node):
         
         for node in self.nodes_outbound:
             self.disconnect_with_node(node)
+
+
+    @thread_wrap("P2PNode")
+    def run(self) -> None:
+        super().run()
