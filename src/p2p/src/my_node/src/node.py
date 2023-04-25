@@ -7,33 +7,64 @@ from __future__ import annotations
 
 import datetime
 import hashlib
+import json
 import socket
+from os import mkdir, path
+from pathlib import Path
 from random import choice
 
 from p2pnetwork.node import Node
 
-from src import thread_wrap
+from src import settings, thread_wrap
 
 
 # Definitions
+def get_nodes_from_json(mac: str) -> dict:
+    """Get the nodes"""
+    
+    # Create n-chain directory if it doesn't exist
+    if not path.exists(nchain_path := (path.join(str(Path.home()), "n-chain"))):
+        mkdir(path.join(str(Path.home()), "n-chain"))
+    
+    # Create mac directory if it doesn't exist
+    if not path.exists(path.join(nchain_path, mac)):
+        mkdir(path.join(nchain_path, mac))
+    
+    # Create the nodes file if it doesn't exist
+    if not path.exists(nodes_path := (path.join(nchain_path, mac, "nodes.json"))):
+        with open(nodes_path, 'wt') as file:
+            json.dump(
+                {
+                    "local-node": None,
+                    "known-nodes": None
+                },
+            file, indent=4)
+
+    # Return node json data
+    with open(nodes_path, 'rt') as file:
+        json_data = json.load(file)
+        
+    return json_data
+
+
 class LocalNode(Node):
     """The local node on this machine"""
 
-    def __init__(self, node_json: dict) -> None:
+    def __init__(self, mac: str) -> None:
         """Create a local node on this machine"""
         
-        # Skip if no json provided (means multiple gateways found, and one could not be automatically selected)
-        if not node_json:
-            return
+        # Get the nodes from the file
+        node_json = get_nodes_from_json(mac)
         
-        # Get node information from json
+        
+        # Get node id from json or make a new one
         if node_json["local-node"]:
             node_id = node_json["local-node"]["id"]
-            node_port = node_json["local-node"]["port"]
         
         else:
             node_id = hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
-            node_port = 56787
+        
+        node_port = settings.get_setting_value("port")
         
         self.ip = socket.gethostbyname(socket.gethostname())
 

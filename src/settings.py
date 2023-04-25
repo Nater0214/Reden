@@ -4,7 +4,7 @@
 
 # Imports
 import json
-import os
+from os import mkdir, path
 
 from src import func_cache
 
@@ -12,9 +12,23 @@ from src import func_cache
 # Definitions
 @func_cache()
 def _get_settings_path() -> str:
-    """Get the path to the settings file"""
+    """Get the path to the settings file and make sure it exists"""
     
-    return os.path.join(os.path.realpath(os.path.dirname(__name__)), "store", "settings.json")
+    # Make sure store exists
+    if not path.exists((store_path := path.join(path.realpath(path.dirname(__file__)), "..", "store"))):
+        mkdir(store_path)
+    
+    # Make sure DO NOT EDIT file exists
+    if not path.exists((do_not_edit_path := path.join(store_path, "DO_NOT_EDIT_YOURSELF"))):
+        with open(do_not_edit_path, 'wt') as file:
+            file.write("DO NOT EDIT THE SETTINGS FILE YOURSELF")
+    
+    # Make sure settings file exists
+    if not path.exists((settings_path := path.join(store_path, "settings.json"))):
+        with open(settings_path, 'wt') as file:
+            json.dump({key: None for key in ["interface", "port"]}, file, indent=4)
+    
+    return path.join(settings_path)
 
 
 def get_setting_value(name: str) -> None | int | str | list | dict:

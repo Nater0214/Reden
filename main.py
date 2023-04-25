@@ -28,9 +28,6 @@ def main() -> None:
     # Start app and get exit code
     exit_code = app.exec()
     
-    # Stop p2p
-    p2p.conclude()
-    
     # Exit with code
     sys.exit(exit_code)
 

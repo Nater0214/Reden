@@ -40,6 +40,10 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Set app variable
         self.app = app
         
+        # Set global local node
+        global local_node
+        local_node = None
+        
         # Button handlers
         self.nodeStartButton.clicked.connect(self.start_local_node)
         self.addNodeButton.clicked.connect(self.open_add_node_window)
@@ -64,13 +68,19 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
         
         # Start the local node
-        global local_node
         local_node = p2p.start(''.join(mac.split(':')))
         
         # Update the ui values
         self.update_ui_values()
-
-
+    
+    
+    def stop_local_node(self) -> None:
+        """Stop the local node"""
+        
+        # Stop the local node
+        local_node.stop()
+    
+    
     def open_add_node_window(self) -> None:
         """Open the add node window"""
         
@@ -82,6 +92,12 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Interface
         settings.set_setting_value("interface", self.interfaceBox.currentText())
+        
+        # Port
+        settings.set_setting_value("port", self.portBox.value())
+        
+        # Update the UI values
+        self.update_ui_values()
 
 
     # Methods
@@ -90,10 +106,26 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         """Update the UI values"""
         
         # Update stats
-        if local_node:
+        try:
+            is_alive = local_node.is_alive()
+        except AttributeError:
+            is_alive = False
+        
+        if local_node and is_alive:
             self.localNodeIPStat.setText(local_node.ip)
             self.localNodePortStat.setText(str(local_node.port))
             self.localNodeIDStat.setText(local_node.id)
+            self.localNodeActiveStat.setText("Yes")
+            self.nodeStartButton.setEnabled(False)
+            self.nodeStopButton.setEnabled(True)
+        
+        else:
+            self.localNodeIPStat.setText("None")
+            self.localNodePortStat.setText("None")
+            self.localNodeIDStat.setText("None")
+            self.localNodeActiveStat.setText("No")
+            self.nodeStartButton.setEnabled(True)
+            self.nodeStopButton.setEnabled(False)
         
         # Disable node start button if no interface
         if not settings.get_setting_value("interface"):
@@ -114,6 +146,9 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
             self.interfaceBox.setCurrentText(iface)
         else:
             self.interfaceBox.setCurrentIndex(0)
+        
+        if (port := settings.get_setting_value("port")):
+            self.portBox.setValue(port)
         
         # Flag values as ready
         self.values_ready = True

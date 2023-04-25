@@ -1,3 +1,4 @@
 {
-    "interface": "Wireless LAN adapter Wi-Fi"
+    "interface": "Wireless LAN adapter Wi-Fi",
+    "port": 56787
 }
