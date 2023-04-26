@@ -31,7 +31,7 @@ def _get_settings_path() -> str:
     return path.join(settings_path)
 
 
-def get_setting_value(name: str) -> None | int | str | list | dict:
+def get_setting_value(name: str) -> None | bool | int | str | list | dict:
     """Get a settings value by it's name"""
     
     # Get json from from file
@@ -47,7 +47,7 @@ def get_setting_value(name: str) -> None | int | str | list | dict:
     return value
 
 
-def set_setting_value(name: str, value: None | int | str | list | dict) -> None:
+def set_setting_value(name: str, value: None | bool | int | str | list | dict) -> None:
     """Update a settings value by it's name"""
     
     # Make sure setting exists
