@@ -49,11 +49,33 @@ def get_nodes_from_json(mac: str) -> dict:
 
 class LocalNode(Node):
     """The local node on this machine"""
-
-    def __init__(self, mac: str) -> None:
-        """Create a local node on this machine"""
-        
-        # Get the nodes from the file
+    
+    # Variables
+    initialized = False
+    
+    
+    def __init__(self):
+        self._is_alive = False
+        pass
+    
+    
+    # Events
+    def inbound_node_connected(self, node: Node) -> None:
+        self.add_known_node(node)
+    
+    
+    def outbound_node_connected(self, node: Node) -> None:
+        self.add_known_node(node)
+    
+    
+    # Properties
+    def is_alive(self) -> bool:
+        return self._is_alive
+    
+    
+    # Methods
+    def my_init(self, mac: str) -> None:
+                # Get the nodes from the file
         node_json = get_nodes_from_json(mac)
         
         
@@ -71,21 +93,12 @@ class LocalNode(Node):
         # Add known nodes to a list
         if node_json["known-nodes"]:
             self.known_nodes = node_json["known-nodes"]
-
-        # Initialize node
+        
+        self.initialized = True
+        
         super().__init__(self.ip, node_port, node_id)
     
     
-    # Events
-    def inbound_node_connected(self, node: Node) -> None:
-        self.add_known_node(node)
-    
-    
-    def outbound_node_connected(self, node: Node) -> None:
-        self.add_known_node(node)
-    
-    
-    # Methods
     def add_known_node(self, node: Node) -> None:
         self.known_nodes.append(
             {
@@ -125,4 +138,15 @@ class LocalNode(Node):
 
     @thread_wrap("P2PNode")
     def run(self) -> None:
+        """Run the node"""
+        
+        # I
+        
+        # Set alive flag
+        self._is_alive = True
+        
+        # Run node
         super().run()
+        
+        # Reset alive flag
+        self._is_alive = False

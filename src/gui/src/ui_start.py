@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
-    QGridLayout, QGroupBox, QLabel, QListView,
-    QListWidget, QListWidgetItem, QMainWindow, QPushButton,
-    QSizePolicy, QSpinBox, QTabWidget, QTextEdit,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
+    QFrame, QGridLayout, QGroupBox, QLabel,
+    QListView, QListWidget, QListWidgetItem, QMainWindow,
+    QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
+    QTabWidget, QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -1488,6 +1488,15 @@ class Ui_MainWindow(object):
 
         self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.spinBox_2)
 
+        self.nodeAutoStartBox = QCheckBox(self.groupBox)
+        self.nodeAutoStartBox.setObjectName(u"nodeAutoStartBox")
+
+        self.formLayout_4.setWidget(2, QFormLayout.LabelRole, self.nodeAutoStartBox)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.formLayout_4.setItem(2, QFormLayout.FieldRole, self.horizontalSpacer)
+
 
         self.gridLayout_4.addWidget(self.groupBox, 0, 0, 1, 1)
 
@@ -1505,7 +1514,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1540,6 +1549,7 @@ class Ui_MainWindow(object):
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Node Settings", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Max Connected Nodes:", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Max Known Nodes", None))
+        self.nodeAutoStartBox.setText(QCoreApplication.translate("MainWindow", u"Node Auto-Start", None))
         self.saveSettingsButton.setText(QCoreApplication.translate("MainWindow", u"Save", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.settingsTab), QCoreApplication.translate("MainWindow", u"Settings", None))
     # retranslateUi

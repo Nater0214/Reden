@@ -9,7 +9,6 @@ import sys
 import PySide6
 
 from src import gui as gui
-from src import p2p as p2p
 
 
 # Definitions

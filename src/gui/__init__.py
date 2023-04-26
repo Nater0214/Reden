@@ -8,7 +8,7 @@ from time import sleep
 from getmac import get_mac_address
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from src import get_ifaces, p2p, settings, thread_wrap
+from src import get_ifaces, my_node, settings, thread_wrap
 
 from .src import ui_add_node, ui_start
 
@@ -42,12 +42,15 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Set global local node
         global local_node
-        local_node = None
+        local_node = my_node.LocalNode()
         
         # Button handlers
         self.nodeStartButton.clicked.connect(self.start_local_node)
         self.addNodeButton.clicked.connect(self.open_add_node_window)
         self.saveSettingsButton.clicked.connect(self.save_settings)
+        
+        # Start node if auto-start is enabled
+        self.auto_start()
     
     
     # Events
@@ -55,6 +58,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         """Quit the app on window close"""
         
         self.app.quit()
+        local_node.stop()
     
     
     # Button methods
@@ -67,8 +71,11 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Get the mac address of the default gateway
         mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
         
-        # Start the local node
-        local_node = p2p.start(''.join(mac.split(':')))
+        # Initialize the local node if it isn't already
+        if not local_node.initialized:
+            local_node.my_init(''.join(mac.split(':')))
+        
+        local_node.run()
         
         # Update the ui values
         self.update_ui_values()
@@ -95,6 +102,9 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Port
         settings.set_setting_value("port", self.portBox.value())
+        
+        # Node auto-start
+        settings.set_setting_value("node-auto-start", self.nodeAutoStartBox.isChecked())
         
         # Update the UI values
         self.update_ui_values()
@@ -130,9 +140,6 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Disable node start button if no interface
         if not settings.get_setting_value("interface"):
             self.nodeStartButton.setEnabled(False)
-            
-        else:
-            self.nodeStartButton.setEnabled(True)
         
         # Flag values as not ready
         self.values_ready = False
@@ -150,6 +157,9 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         if (port := settings.get_setting_value("port")):
             self.portBox.setValue(port)
         
+        if (auto_start := settings.get_setting_value("node-auto-start")):
+            self.nodeAutoStartBox.setChecked(auto_start)
+        
         # Flag values as ready
         self.values_ready = True
         self.saveSettingsButton.setEnabled(True)
@@ -161,6 +171,16 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Wait for value
         while not self.values_ready:
             sleep(0.1)
+    
+    
+    @thread_wrap("AutoStartThread")
+    def auto_start(self) -> None:
+        """Start the local node if auto start is enabled"""
+        
+        if settings.get_setting_value("node-auto-start"):
+            if settings.get_setting_value("interface") and settings.get_setting_value("port"):
+                self.nodeStartButton.setEnabled(False)
+                self.start_local_node()
 
 
 class AddNodeWindow(QMainWindow, ui_add_node.Ui_MainWindow):
