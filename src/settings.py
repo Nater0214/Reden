@@ -42,7 +42,7 @@ def get_setting_value(name: str) -> None | int | str | list | dict:
     try:
         value = json_data[name]
     except KeyError:
-        raise ValueError(f"No setting with name '{name}' exists")
+        raise KeyError(f"No setting with name '{name}' exists")
     
     return value
 
