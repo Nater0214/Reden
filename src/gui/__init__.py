@@ -46,6 +46,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Button handlers
         self.nodeStartButton.clicked.connect(self.start_local_node)
+        self.nodeStopButton.clicked.connect(self.stop_local_node)
         self.addNodeButton.clicked.connect(self.open_add_node_window)
         self.saveSettingsButton.clicked.connect(self.save_settings)
         
@@ -68,12 +69,9 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Get the interface
         iface = settings.get_setting_value("interface")
         
-        # Get the mac address of the default gateway
-        mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
-        
         # Initialize the local node if it isn't already
         if not local_node.initialized:
-            local_node.my_init(''.join(mac.split(':')))
+            local_node.my_init(iface)
         
         local_node.run()
         
@@ -86,6 +84,9 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Stop the local node
         local_node.stop()
+        
+        # Update UI values
+        self.update_ui_values()
     
     
     def open_add_node_window(self) -> None:

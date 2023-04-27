@@ -8,14 +8,14 @@ from __future__ import annotations
 import datetime
 import hashlib
 import json
-import socket
 from os import mkdir, path
 from pathlib import Path
 from random import choice
 
+from getmac import get_mac_address
 from p2pnetwork.node import Node
 
-from src import settings, thread_wrap
+from src import get_ifaces, settings, thread_wrap
 
 
 # Definitions
@@ -74,9 +74,14 @@ class LocalNode(Node):
     
     
     # Methods
-    def my_init(self, mac: str) -> None:
-                # Get the nodes from the file
-        node_json = get_nodes_from_json(mac)
+    def my_init(self, iface: dict) -> None:
+        """My init"""
+        
+        # Get the mac address
+        mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
+        
+        # Get the nodes from the file
+        node_json = get_nodes_from_json(''.join(mac.split(':')))
         
         
         # Get node id from json or make a new one
@@ -88,7 +93,7 @@ class LocalNode(Node):
         
         node_port = settings.get_setting_value("port")
         
-        self.ip = socket.gethostbyname(socket.gethostname())
+        self.ip = get_ifaces()[iface]["inet4"][0]
 
         # Add known nodes to a list
         if node_json["known-nodes"]:
@@ -140,7 +145,13 @@ class LocalNode(Node):
     def run(self) -> None:
         """Run the node"""
         
-        # I
+        # Only run if the node is initialized
+        if not self.initialized:
+            return
+        
+        # Only run if not already running
+        if self._is_alive:
+            return
         
         # Set alive flag
         self._is_alive = True
