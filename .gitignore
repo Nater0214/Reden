@@ -1,1 +1,10 @@
+*_test.py
+*__pycache__
+.pytest_cache
 .vscode
+.VSCodeCounter
+build
+dist
+tests
+pytest.ini
+reden.spec
