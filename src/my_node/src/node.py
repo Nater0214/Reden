@@ -99,6 +99,9 @@ class LocalNode(Node):
         if node_json["known-nodes"]:
             self.known_nodes = node_json["known-nodes"]
         
+        else:
+            self.known_nodes = []
+        
         self.initialized = True
         
         super().__init__(self.ip, node_port, node_id)
