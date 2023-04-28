@@ -58,8 +58,8 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
     def closeEvent(self, event) -> None:
         """Quit the app on window close"""
         
-        self.app.quit()
         local_node.stop()
+        self.app.quit()
     
     
     # Button methods
@@ -137,6 +137,17 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
             self.localNodeActiveStat.setText("No")
             self.nodeStartButton.setEnabled(True)
             self.nodeStopButton.setEnabled(False)
+        
+        # Add nodes to list
+        if local_node:
+            for node in local_node.known_nodes:
+                self.knownNodesList.addItem(node.id)
+            
+            if is_alive:
+                for node in local_node.all_nodes:
+                    self.connectedNodesList.addItem(node.id)
+            else:
+                self.connectedNodesList.clear()
         
         # Disable node start button if no interface
         if not settings.get_setting_value("interface"):
