@@ -196,7 +196,7 @@ class LocalNode(Node):
         
         out_nodes = [self.return_node_json(node) for node in self.nodes_outbound]
         
-        with open(path.join(str(Path.home()), "n-chain", ''.join(self.mac.split(':'), "nodes.json")), 'wt') as file:
+        with open(path.join(str(Path.home()), "n-chain", ''.join(self.mac.split(':')), "nodes.json"), 'wt') as file:
             json.dump({
                 "known-nodes": out_nodes,
                 "local-node": {
