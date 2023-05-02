@@ -14,6 +14,7 @@ from random import choice
 
 from getmac import get_mac_address
 from p2pnetwork.node import Node
+from p2pnetwork.nodeconnection import NodeConnection
 
 from src import get_ifaces, settings, thread_wrap
 
@@ -60,11 +61,11 @@ class LocalNode(Node):
     
     
     # Events
-    def inbound_node_connected(self, node: Node) -> None:
+    def inbound_node_connected(self, node: NodeConnection) -> None:
         self.add_known_node(node)
     
     
-    def outbound_node_connected(self, node: Node) -> None:
+    def outbound_node_connected(self, node: NodeConnection) -> None:
         self.add_known_node(node)
     
     
@@ -107,7 +108,7 @@ class LocalNode(Node):
         super().__init__(self.ip, node_port, node_id)
     
     
-    def add_known_node(self, node: Node) -> None:
+    def add_known_node(self, node: NodeConnection) -> None:
         self.known_nodes.append(
             {
                 "ip": node.ip,
@@ -142,6 +143,22 @@ class LocalNode(Node):
         
         for node in self.nodes_outbound:
             self.disconnect_with_node(node)
+    
+    
+    def return_node_json(self, node: NodeConnection) -> dict:
+        """Return a node's json data"""
+        
+        return {
+            "ip": node.ip,
+            "port": node.port,
+            "id": node.node_id
+        }
+    
+    
+    def save_json(self) -> None:
+        """Save the known nodes and this node's id to a json file"""
+        
+        
 
 
     @thread_wrap("P2PNode")
