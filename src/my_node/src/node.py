@@ -150,8 +150,15 @@ class LocalNode(Node):
             self.disconnect_with_node(node)
     
     
-    def ask_nodes(self, for_):
+    def ask_nodes(self, for_: str) -> None:
         """Ask every node for something"""
+        
+        for node in self.nodes_outbound:
+            node: NodeConnection
+            node.send({
+                "type": "ask",
+                "for": for_
+            })
     
     
     def return_node_json(self, node: NodeConnection) -> dict:
