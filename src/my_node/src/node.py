@@ -14,9 +14,10 @@ from random import choice
 
 from getmac import get_mac_address
 from p2pnetwork.node import Node
-from .node_connection import NodeConnection
 
 from src import get_ifaces, settings, thread_wrap
+
+from .node_connection import NodeConnection
 
 
 # Definitions
