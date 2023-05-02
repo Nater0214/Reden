@@ -14,9 +14,10 @@ from random import choice
 
 from getmac import get_mac_address
 from p2pnetwork.node import Node
-from p2pnetwork.nodeconnection import NodeConnection
 
 from src import get_ifaces, settings, thread_wrap
+
+from .node_connection import NodeConnection
 
 
 # Definitions
@@ -69,6 +70,26 @@ class LocalNode(Node):
         self.add_known_node(node)
     
     
+    def node_message(self, node: NodeConnection, data: dict):
+        """Do stuff based on a node message"""
+        
+        # Node asked for something
+        if data["action"] == "ask":
+            # Node asked for known nodes
+            if data["body"] == "KN":
+                node.reply(data["msg-id"], self.known_nodes)
+        
+        # Node replied to something
+        elif data["action"] == "reply":
+            # Node replied with known nodes
+            if self._out_messages[data["msg-id"]]["body"] == "KN":
+                for recv_node in data["body"]:
+                    if any([our_node["id"] == recv_node["id"] for our_node in self.known_nodes]):
+                        continue
+                    
+                    self.known_nodes.append(recv_node)
+    
+    
     # Properties
     def is_alive(self) -> bool:
         return self._is_alive
@@ -90,7 +111,7 @@ class LocalNode(Node):
             node_id = node_json["local-node"]["id"]
         
         else:
-            node_id = hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
+            node_id = 'N' + hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
         
         node_port = settings.get_setting_value("port")
         
@@ -104,6 +125,7 @@ class LocalNode(Node):
             self.known_nodes = []
         
         self.initialized = True
+        self._out_messages = {}
         
         super().__init__(self.ip, node_port, node_id)
     
@@ -130,6 +152,11 @@ class LocalNode(Node):
         for _ in range(amount):
             self.connect_with_node(choice(self.known_nodes))
     
+    def create_new_connection(self, connection, id_, host, port):
+        """Override this method to use my NodeConnection"""
+        
+        return NodeConnection(self, connection, id_, host, port)
+    
     
     def add_node(self, ip: str, port: int) -> None:
         """Connect to a new node"""
@@ -143,6 +170,15 @@ class LocalNode(Node):
         
         for node in self.nodes_outbound:
             self.disconnect_with_node(node)
+    
+    
+    def ask_nodes(self, for_: str) -> None:
+        """Ask every node for something"""
+        
+        for node in self.nodes_outbound:
+            node: NodeConnection
+            msg_data = node.ask(for_)
+            self._out_messages[msg_data["msg-id"]] = msg_data
     
     
     def return_node_json(self, node: NodeConnection) -> dict:
