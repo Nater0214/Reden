@@ -14,7 +14,7 @@ from random import choice
 
 from getmac import get_mac_address
 from p2pnetwork.node import Node
-from p2pnetwork.nodeconnection import NodeConnection
+from .node_connection import NodeConnection
 
 from src import get_ifaces, settings, thread_wrap
 
@@ -129,6 +129,9 @@ class LocalNode(Node):
         
         for _ in range(amount):
             self.connect_with_node(choice(self.known_nodes))
+    
+    def create_new_connection(self, connection, id_, host, port):
+        return NodeConnection(self, connection, id_, host, port)
     
     
     def add_node(self, ip: str, port: int) -> None:
