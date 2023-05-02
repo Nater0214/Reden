@@ -100,10 +100,10 @@ class LocalNode(Node):
         """My init"""
         
         # Get the mac address
-        mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
+        self.mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
         
         # Get the nodes from the file
-        node_json = get_nodes_from_json(''.join(mac.split(':')))
+        node_json = get_nodes_from_json(''.join(self.mac.split(':')))
         
         
         # Get node id from json or make a new one
@@ -194,7 +194,10 @@ class LocalNode(Node):
     def save_json(self) -> None:
         """Save the known nodes and this node's id to a json file"""
         
+        out_json = [self.return_node_json(node) for node in self.nodes_outbound]
         
+        with open(path.join(str(Path.home()), "n-chain", ''.join(self.mac.split(':'), "nodes.json")), 'wt') as file:
+            json.dump(out_json, file, indent=4)
 
 
     @thread_wrap("P2PNode")
