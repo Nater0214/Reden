@@ -70,6 +70,26 @@ class LocalNode(Node):
         self.add_known_node(node)
     
     
+    def node_message(self, node: NodeConnection, data: dict):
+        """Do stuff based on a node message"""
+        
+        # Node asked for something
+        if data["action"] == "ask":
+            # Node asked for known nodes
+            if data["body"] == "KN":
+                node.reply(data["msg-id"], self.known_nodes)
+        
+        # Node replied to something
+        elif data["action"] == "reply":
+            # Node replied with known nodes
+            if self._out_messages[data["msg-id"]]["body"] == "KN":
+                for recv_node in data["body"]:
+                    if any([our_node["id"] == recv_node["id"] for our_node in self.known_nodes]):
+                        continue
+                    
+                    self.known_nodes.append(recv_node)
+    
+    
     # Properties
     def is_alive(self) -> bool:
         return self._is_alive
@@ -91,7 +111,7 @@ class LocalNode(Node):
             node_id = node_json["local-node"]["id"]
         
         else:
-            node_id = hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
+            node_id = 'N' + hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
         
         node_port = settings.get_setting_value("port")
         
@@ -105,6 +125,7 @@ class LocalNode(Node):
             self.known_nodes = []
         
         self.initialized = True
+        self._out_messages = {}
         
         super().__init__(self.ip, node_port, node_id)
     
@@ -156,7 +177,8 @@ class LocalNode(Node):
         
         for node in self.nodes_outbound:
             node: NodeConnection
-            node.ask(for_)
+            msg_data = node.ask(for_)
+            self._out_messages[msg_data["msg-id"]] = msg_data
     
     
     def return_node_json(self, node: NodeConnection) -> dict:
