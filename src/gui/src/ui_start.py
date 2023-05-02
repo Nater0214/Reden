@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'start.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.0
+## Created by: Qt User Interface Compiler version 6.5.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,9 +17,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
     QFrame, QGridLayout, QGroupBox, QLabel,
-    QListView, QListWidget, QListWidgetItem, QMainWindow,
-    QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
-    QTabWidget, QTextEdit, QVBoxLayout, QWidget)
+    QListWidget, QListWidgetItem, QMainWindow, QPushButton,
+    QSizePolicy, QSpacerItem, QSpinBox, QTabWidget,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -1285,11 +1285,6 @@ class Ui_MainWindow(object):
         self.nodesTab.setObjectName(u"nodesTab")
         self.gridLayout_2 = QGridLayout(self.nodesTab)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.connectedNodesList = QListView(self.nodesTab)
-        self.connectedNodesList.setObjectName(u"connectedNodesList")
-
-        self.gridLayout_2.addWidget(self.connectedNodesList, 1, 2, 3, 1)
-
         self.label = QLabel(self.nodesTab)
         self.label.setObjectName(u"label")
         sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
@@ -1425,6 +1420,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.nodeStats, 3, 4, 1, 2)
 
+        self.connectedNodesList = QListWidget(self.nodesTab)
+        self.connectedNodesList.setObjectName(u"connectedNodesList")
+
+        self.gridLayout_2.addWidget(self.connectedNodesList, 1, 2, 3, 1)
+
         self.tabWidget.addTab(self.nodesTab, "")
         self.settingsTab = QWidget()
         self.settingsTab.setObjectName(u"settingsTab")
@@ -1514,7 +1514,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

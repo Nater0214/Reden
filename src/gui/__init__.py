@@ -59,6 +59,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         """Quit the app on window close"""
         
         local_node.stop()
+        local_node.save_json()
         self.app.quit()
     
     
@@ -139,14 +140,15 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
             self.nodeStopButton.setEnabled(False)
         
         # Add nodes to list
-        if local_node:
-            for node in local_node.known_nodes:
-                self.knownNodesList.addItem(node.id)
-            
+        if local_node:            
             if is_alive:
                 for node in local_node.all_nodes:
                     self.connectedNodesList.addItem(node.id)
+                    
+                for node in local_node.known_nodes:
+                    self.knownNodesList.addItem(node.id)
             else:
+                self.knownNodesList.clear()
                 self.connectedNodesList.clear()
         
         # Disable node start button if no interface
