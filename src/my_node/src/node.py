@@ -155,10 +155,7 @@ class LocalNode(Node):
         
         for node in self.nodes_outbound:
             node: NodeConnection
-            node.send({
-                "type": "ask",
-                "for": for_
-            })
+            node.ask(for_)
     
     
     def return_node_json(self, node: NodeConnection) -> dict:
