@@ -178,6 +178,21 @@ class LocalNode(Node):
         
         # Run node
         super().run()
+    
+    
+    def stop(self) -> None:
+        """Stop the node"""
         
-        # Reset alive flag
+        # Only run if the node is initialized
+        if not self.initialized:
+            return
+        
+        # Only run if running
+        if not self._is_alive:
+            raise
+        
+        # Set alive flag
         self._is_alive = False
+        
+        # Stop node
+        super().stop()
