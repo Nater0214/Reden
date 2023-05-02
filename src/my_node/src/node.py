@@ -25,7 +25,7 @@ def get_nodes_from_json(mac: str) -> dict:
     """Get the nodes"""
     
     # Create n-chain directory if it doesn't exist
-    if not path.exists(nchain_path := (path.join(str(Path.home()), "n-chain"))):
+    if not path.exists(nchain_path := path.join(str(Path.home()), "n-chain")):
         mkdir(path.join(str(Path.home()), "n-chain"))
     
     # Create mac directory if it doesn't exist
@@ -33,7 +33,7 @@ def get_nodes_from_json(mac: str) -> dict:
         mkdir(path.join(nchain_path, mac))
     
     # Create the nodes file if it doesn't exist
-    if not path.exists(nodes_path := (path.join(nchain_path, mac, "nodes.json"))):
+    if not path.exists(nodes_path := path.join(nchain_path, mac, "nodes.json")):
         with open(nodes_path, 'wt') as file:
             json.dump(
                 {
