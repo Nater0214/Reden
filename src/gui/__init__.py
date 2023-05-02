@@ -244,7 +244,7 @@ class AddNodeWindow(QMainWindow, ui_add_node.Ui_MainWindow):
                 raise InputError("Port is not valid")
 
             # Port in range
-            if not (0 < port < 65536):
+            if not 0 < port < 65536:
                 raise InputError("Port is not valid")
             
         except InputError as e:
