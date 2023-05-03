@@ -131,11 +131,14 @@ class LocalNode(Node):
     
     
     def add_known_node(self, node: NodeConnection) -> None:
+        if any(known_node["id"] == node.id for known_node in self.known_nodes):
+            return
+        
         self.known_nodes.append(
             {
                 "host": node.host,
                 "port": node.port,
-                "id": node.node_id
+                "id": node.id
             }
         )
 
@@ -187,7 +190,7 @@ class LocalNode(Node):
         return {
             "host": node.host,
             "port": node.port,
-            "id": node.node_id
+            "id": node.id
         }
     
     
