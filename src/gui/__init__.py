@@ -71,10 +71,13 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         iface = settings.get_setting_value("interface")
         
         # Initialize the local node if it isn't already
-        if not local_node.initialized:
-            local_node.my_init(iface)
+        local_node.my_init(iface)
         
         local_node.run()
+        
+        # Wait for node to be alive
+        while not local_node.is_alive():
+            sleep(0.1)
         
         # Update the ui values
         self.update_ui_values()
@@ -124,7 +127,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
             is_alive = False
         
         if local_node and is_alive:
-            self.localNodeIPStat.setText(local_node.ip)
+            self.localNodeIPStat.setText(local_node.host)
             self.localNodePortStat.setText(str(local_node.port))
             self.localNodeIDStat.setText(local_node.id)
             self.localNodeActiveStat.setText("Yes")

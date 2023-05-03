@@ -11,6 +11,7 @@ import json
 from os import mkdir, path
 from pathlib import Path
 from random import choice
+from time import sleep
 
 from getmac import get_mac_address
 from p2pnetwork.node import Node
@@ -105,7 +106,6 @@ class LocalNode(Node):
         # Get the nodes from the file
         node_json = get_nodes_from_json(''.join(self.mac.split(':')))
         
-        
         # Get node id from json or make a new one
         if node_json["local-node"]:
             node_id = node_json["local-node"]["id"]
@@ -115,7 +115,7 @@ class LocalNode(Node):
         
         node_port = settings.get_setting_value("port")
         
-        self.ip = get_ifaces()[iface]["inet4"][0]
+        node_host = get_ifaces()[iface]["inet4"][0]
 
         # Add known nodes to a list
         if node_json["known-nodes"]:
@@ -127,13 +127,13 @@ class LocalNode(Node):
         self.initialized = True
         self._out_messages = {}
         
-        super().__init__(self.ip, node_port, node_id)
+        super().__init__(node_host, node_port, node_id)
     
     
     def add_known_node(self, node: NodeConnection) -> None:
         self.known_nodes.append(
             {
-                "ip": node.ip,
+                "host": node.host,
                 "port": node.port,
                 "id": node.node_id
             }
@@ -143,7 +143,7 @@ class LocalNode(Node):
     def connect_with_node(self, json_data: dict) -> bool:
         """Connect with a node"""
         
-        return super().connect_with_node(json_data["ip"], json_data["port"])
+        return super().connect_with_node(json_data["host"], json_data["port"])
 
 
     def connect_random(self, amount: int = 1) -> None:
@@ -158,11 +158,11 @@ class LocalNode(Node):
         return NodeConnection(self, connection, id_, host, port)
     
     
-    def add_node(self, ip: str, port: int) -> None:
+    def add_node(self, host: str, port: int) -> None:
         """Connect to a new node"""
 
         # Attempt to connect to node
-        self.connect_with_node({"ip": ip, "port": port})
+        self.connect_with_node({"host": host, "port": port})
     
     
     def disconnect_all(self) -> None:
@@ -185,7 +185,7 @@ class LocalNode(Node):
         """Return a node's json data"""
         
         return {
-            "ip": node.ip,
+            "host": node.host,
             "port": node.port,
             "id": node.node_id
         }
@@ -200,7 +200,7 @@ class LocalNode(Node):
             json.dump({
                 "known-nodes": out_nodes,
                 "local-node": {
-                    "id": self.node_id
+                    "id": self.id
                 }
             }, file, indent=4)
 
@@ -220,8 +220,14 @@ class LocalNode(Node):
         # Set alive flag
         self._is_alive = True
         
+        # Set running flag
+        self._running = True
+        
         # Run node
         super().run()
+        
+        # Set running flag
+        self._running = False
     
     
     def stop(self) -> None:
@@ -233,10 +239,14 @@ class LocalNode(Node):
         
         # Only run if running
         if not self._is_alive:
-            raise
+            return
         
         # Set alive flag
         self._is_alive = False
         
         # Stop node
         super().stop()
+        
+        # Wait for node to finish
+        while self._running:
+            sleep(0.1)
