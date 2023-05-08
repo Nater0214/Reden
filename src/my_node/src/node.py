@@ -5,36 +5,48 @@
 # Imports
 from __future__ import annotations
 
-import datetime
-import hashlib
 import json
 from os import mkdir, path
 from pathlib import Path
 from random import choice
 from time import sleep
 
+from cryptography.hazmat import backends
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ec
 from getmac import get_mac_address
 from p2pnetwork.node import Node
 
-from src import get_ifaces, settings, thread_wrap
+from src import func_cache, generate_id, get_ifaces, settings, thread_wrap
 
 from .node_connection import NodeConnection
 
 
 # Definitions
-def get_nodes_from_json(mac: str) -> dict:
-    """Get the nodes"""
+@func_cache()
+def get_chain_dir(mac: str) -> str:
+    """Get the directory of the chain"""
     
-    # Create n-chain directory if it doesn't exist
+    # Create the n-chain directory if it doesn't exist
     if not path.exists(nchain_path := path.join(str(Path.home()), "n-chain")):
         mkdir(path.join(str(Path.home()), "n-chain"))
     
-    # Create mac directory if it doesn't exist
-    if not path.exists(path.join(nchain_path, mac)):
-        mkdir(path.join(nchain_path, mac))
+    # Create the mac directory if it doesn't exist
+    if not path.exists(path.join(nchain_path, ''.join(mac.split(':')))):
+        mkdir(path.join(nchain_path, ''.join(mac.split(':'))))
+    
+    # Return the path
+    return path.join(nchain_path, ''.join(mac.split(':')))
+
+
+def get_nodes_from_json(mac: str) -> dict:
+    """Get the nodes"""
+    
+    # Get the path of the current chain
+    current_chain_path = get_chain_dir(mac)
     
     # Create the nodes file if it doesn't exist
-    if not path.exists(nodes_path := path.join(nchain_path, mac, "nodes.json")):
+    if not path.exists(nodes_path := path.join(current_chain_path, "nodes.json")):
         with open(nodes_path, 'wt') as file:
             json.dump(
                 {
@@ -43,11 +55,72 @@ def get_nodes_from_json(mac: str) -> dict:
                 },
             file, indent=4)
 
-    # Return node json data
+    # Get the node json data
     with open(nodes_path, 'rt') as file:
         json_data = json.load(file)
-        
+    
+    # Return the json data
     return json_data
+
+
+def get_node_data(mac: str) -> dict:
+    """Get the data of every node"""
+    
+    # If the node info file does not exist return False
+    if not path.exists(node_data_path := path.join(get_chain_dir(mac), "node-info.json")):
+        return False
+    
+    # Get node data json from file
+    with open(node_data_path, 'rt') as file:
+        json_data = json.load(file)
+    
+    # Return the json data
+    return json_data
+
+
+def get_node_public_key(mac: str, id: str) -> ec.EllipticCurvePublicKey | bool:
+    """Get the public key of a node"""
+    
+    # Get the node data
+    if not (node_data := get_node_data(mac)):
+        return False
+    
+    # Get the public key of the node
+    try:
+        public_key_bytes = bytes.fromhex(node_data[id]["public-key"])
+        public_key = serialization.load_pem_public_key(
+            public_key_bytes,
+            backend=backends.default_backend()
+        )
+    except KeyError:
+        return False
+    
+    # Return the public key
+    return public_key
+
+
+def get_private_key(mac: str) -> ec.EllipticCurvePrivateKey:
+    """Get the private key"""
+    
+    # Create a private key if it doesn't exist 
+    if not path.exists(private_key_path := path.join(get_chain_dir(mac), "private.key")):
+        private_key = ec.generate_private_key(ec.SECP256K1)
+        with open(private_key_path, 'wb') as file:
+            file.write(private_key.private_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PrivateFormat.TraditionalOpenSSL,
+                encryption_algorithm=serialization.NoEncryption()
+            ))
+    
+    # Get the private key
+    with open(private_key_path, 'rb') as file:
+        private_key = serialization.load_pem_private_key(
+            file.read(),
+            password=None,
+            backend=backends.default_backend()
+        )
+    
+    return private_key
 
 
 class LocalNode(Node):
@@ -80,15 +153,18 @@ class LocalNode(Node):
             if data["body"] == "KN":
                 node.reply(data["msg-id"], self.known_nodes)
         
+        
         # Node replied to something
         elif data["action"] == "reply":
             # Node replied with known nodes
             if self._out_messages[data["msg-id"]]["body"] == "KN":
                 for recv_node in data["body"]:
-                    if any([our_node["id"] == recv_node["id"] for our_node in self.known_nodes]):
+                    if any(our_node["id"] == recv_node["id"] for our_node in self.known_nodes):
                         continue
                     
                     self.known_nodes.append(recv_node)
+            
+            self._out_messages.pop(data["msg-id"])
     
     
     # Properties
@@ -104,19 +180,19 @@ class LocalNode(Node):
         self.mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
         
         # Get the nodes from the file
-        node_json = get_nodes_from_json(''.join(self.mac.split(':')))
+        node_json = get_nodes_from_json(self.mac)
         
         # Get node id from json or make a new one
         if node_json["local-node"]:
             node_id = node_json["local-node"]["id"]
         
         else:
-            node_id = 'N' + hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
+            node_id = generate_id('N')
         
         node_port = settings.get_setting_value("port")
         
         node_host = get_ifaces()[iface]["inet4"][0]
-
+        
         # Add known nodes to a list
         if node_json["known-nodes"]:
             self.known_nodes = node_json["known-nodes"]
@@ -124,8 +200,15 @@ class LocalNode(Node):
         else:
             self.known_nodes = []
         
+        # Get the private key
+        self.private_key = get_private_key(self.mac)
+        
+        # Set variables
         self.initialized = True
         self._out_messages = {}
+        
+        # Set debug flag
+        self.debug = True
         
         super().__init__(node_host, node_port, node_id)
     
