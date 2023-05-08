@@ -90,6 +90,7 @@ def get_node_public_key(mac: str, id: str) -> ec.EllipticCurvePublicKey | bool:
         public_key_bytes = bytes.fromhex(node_data[id]["public-key"])
         public_key = serialization.load_pem_public_key(
             public_key_bytes,
+            password=None,
             backend=backends.default_backend()
         )
     except KeyError:
