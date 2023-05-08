@@ -1,5 +1,5 @@
 {
     "interface": "Wireless LAN adapter Wi-Fi",
     "port": 56787,
-    "node-auto-start": false
+    "node-auto-start": true
 }
