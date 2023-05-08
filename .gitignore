@@ -7,4 +7,3 @@ build
 dist
 tests
 pytest.ini
-reden.spec
