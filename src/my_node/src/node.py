@@ -5,51 +5,24 @@
 # Imports
 from __future__ import annotations
 
-import datetime
-import hashlib
 import json
 from os import mkdir, path
 from pathlib import Path
 from random import choice
 from time import sleep
 
+from cryptography.hazmat import backends
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ec
 from getmac import get_mac_address
 from p2pnetwork.node import Node
 
-from src import get_ifaces, settings, thread_wrap
+from src import func_cache, generate_id, get_ifaces, settings, thread_wrap
 
 from .node_connection import NodeConnection
 
 
 # Definitions
-def get_nodes_from_json(mac: str) -> dict:
-    """Get the nodes"""
-    
-    # Create n-chain directory if it doesn't exist
-    if not path.exists(nchain_path := path.join(str(Path.home()), "n-chain")):
-        mkdir(path.join(str(Path.home()), "n-chain"))
-    
-    # Create mac directory if it doesn't exist
-    if not path.exists(path.join(nchain_path, mac)):
-        mkdir(path.join(nchain_path, mac))
-    
-    # Create the nodes file if it doesn't exist
-    if not path.exists(nodes_path := path.join(nchain_path, mac, "nodes.json")):
-        with open(nodes_path, 'wt') as file:
-            json.dump(
-                {
-                    "local-node": None,
-                    "known-nodes": None
-                },
-            file, indent=4)
-
-    # Return node json data
-    with open(nodes_path, 'rt') as file:
-        json_data = json.load(file)
-        
-    return json_data
-
-
 class LocalNode(Node):
     """The local node on this machine"""
     
@@ -80,15 +53,18 @@ class LocalNode(Node):
             if data["body"] == "KN":
                 node.reply(data["msg-id"], self.known_nodes)
         
+        
         # Node replied to something
         elif data["action"] == "reply":
             # Node replied with known nodes
             if self._out_messages[data["msg-id"]]["body"] == "KN":
                 for recv_node in data["body"]:
-                    if any([our_node["id"] == recv_node["id"] for our_node in self.known_nodes]):
+                    if any(our_node["id"] == recv_node["id"] for our_node in self.known_nodes):
                         continue
                     
                     self.known_nodes.append(recv_node)
+            
+            self._out_messages.pop(data["msg-id"])
     
     
     # Properties
@@ -104,19 +80,19 @@ class LocalNode(Node):
         self.mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
         
         # Get the nodes from the file
-        node_json = get_nodes_from_json(''.join(self.mac.split(':')))
+        node_json = get_nodes_from_json(self.mac)
         
         # Get node id from json or make a new one
         if node_json["local-node"]:
             node_id = node_json["local-node"]["id"]
         
         else:
-            node_id = 'N' + hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
+            node_id = generate_id('N')
         
         node_port = settings.get_setting_value("port")
         
         node_host = get_ifaces()[iface]["inet4"][0]
-
+        
         # Add known nodes to a list
         if node_json["known-nodes"]:
             self.known_nodes = node_json["known-nodes"]
@@ -124,8 +100,15 @@ class LocalNode(Node):
         else:
             self.known_nodes = []
         
+        # Get the private key
+        self.private_key = get_private_key(self.mac)
+        
+        # Set variables
         self.initialized = True
         self._out_messages = {}
+        
+        # Set debug flag
+        self.debug = True
         
         super().__init__(node_host, node_port, node_id)
     

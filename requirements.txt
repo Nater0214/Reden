@@ -1,4 +1,6 @@
+cryptography
 getmac
 ifcfg
 p2pnetwork
+PyInstaller
 PySide6

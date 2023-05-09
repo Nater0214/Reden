@@ -5,20 +5,22 @@
 # Imports
 import datetime
 import hashlib
+
 import p2pnetwork.nodeconnection
+
+from src import generate_id
 
 
 # Definitions
 class NodeConnection(p2pnetwork.nodeconnection.NodeConnection):
     """My override of the node connection"""
     
-    
     # Methods
     def ask(self, for_: str) -> dict:
         """Ask the connection for something"""
         
         # Create a message id
-        msg_id = 'M' + hashlib.new("sha1", str(datetime.datetime.now()).encode()).hexdigest()
+        msg_id = generate_id('M')
         
         # Send the message
         self.send({
@@ -43,3 +45,14 @@ class NodeConnection(p2pnetwork.nodeconnection.NodeConnection):
             "msg-id": msg_id,
             "body": body
         })
+    
+    
+    def send(self, data: str | dict | bytes, *args, **kwargs):
+        """Override the send method to use encryption"""
+        
+        # Encrypt the data using the node's public key
+        # NOT IMPLEMENTED
+        enc_data = data
+        
+        # Send the data
+        super().send(enc_data, *args, **kwargs)
