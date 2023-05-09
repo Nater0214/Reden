@@ -1,0 +1,10 @@
+.pytest_cache
+.vscode
+.VSCodeCounter
+build
+dist
+store
+tests
+.gitignore
+pytest.ini
+README.md
