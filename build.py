@@ -38,10 +38,18 @@ def main(args):
     print("Compiling src")
     for root, dirs, files in os.walk(os.path.join(os.path.realpath(os.path.dirname(__file__)), "dist", name, "src")):
         for file in files:
-            if re.search(r".*\.py$", file_path := os.path.join(root, file)):
+            if re.search(r"\.py$", file_path := os.path.join(root, file)):
                 py_compile.compile(file_path, f"{file_path}c")
                 print(f"{file_path} -> {file_path}c")
                 os.remove(file_path)
+    
+    # Remove pycaches
+    print("Removing pycaches")
+    for root, dirs, files in os.walk(os.path.join(os.path.realpath(os.path.dirname(__file__)), "dist", name, "src")):
+        for dir_ in dirs:
+            if re.search(r"__pycache__/?$", os.path.join(root, dir_)):
+                shutil.rmtree(os.path.join(root, dir_))
+                print(f"{os.path.join(root, dir_)} X")
 
 
 # Run
