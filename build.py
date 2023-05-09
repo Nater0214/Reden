@@ -28,7 +28,7 @@ def main(args):
     
     # Organize the output
     print("Organizing Output")
-    files = list(filter(re.compile(r"^.*\.pyd$|^.*(?<!python\d)(?<!python\d{3})\.dll$").match, os.listdir(out_path := os.path.join(os.path.realpath(os.path.dirname(__file__)), "dist", name))))
+    files = list(filter(re.compile(r"^.*\.pyd$|^.*(?<!python\d)(?<!python\d{3})\.dll$|^.*\.so\(.\d+)+$").match, os.listdir(out_path := os.path.join(os.path.realpath(os.path.dirname(__file__)), "dist", name))))
     os.mkdir(lib_path := os.path.join(out_path, "lib"))
     for file in files:
         shutil.move(os.path.join(out_path, file), os.path.join(lib_path, file))
