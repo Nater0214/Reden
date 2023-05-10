@@ -6,11 +6,14 @@
 from __future__ import annotations
 
 import json
+import socket
 from os import mkdir, path
 from pathlib import Path
 from random import choice
 from time import sleep
 
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.PublicKey import ECC
 from getmac import get_mac_address
 from p2pnetwork.node import Node
 
@@ -18,8 +21,6 @@ from src import func_cache, generate_id, get_ifaces, settings, thread_wrap
 
 from . import _get as get
 from .node_connection import NodeConnection
-from Crypto.Cipher import PKCS1_OAEP
-from Crypto.PublicKey import ECC
 
 
 # Definitions
@@ -200,10 +201,10 @@ class LocalNode(Node):
             self.connect_with_node(choice(self.known_nodes))
     
     
-    def create_new_connection(self, main_node, id_: str, host: str, port: int) -> NodeConnection:
+    def create_new_connection(self, connection: socket.sock, id_: str, host: str, port: int) -> NodeConnection:
         """Override this method to use my NodeConnection"""
         
-        return NodeConnection(main_node, id_, host, port, self.mac)
+        return NodeConnection(self, connection, id_, host, port, self.mac)
     
     
     def add_node(self, host: str, port: int) -> None:

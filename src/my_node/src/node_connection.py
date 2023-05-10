@@ -3,6 +3,8 @@
 
 
 # Imports
+import socket
+
 import p2pnetwork.nodeconnection
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import ECC
@@ -16,14 +18,14 @@ from . import _get as get
 class NodeConnection(p2pnetwork.nodeconnection.NodeConnection):
     """My override of the node connection"""
     
-    def __init__(self, main_node, id_: str, host: str, port: int, mac: str) -> None:
+    def __init__(self, main_node, connection: socket.sock, id_: str, host: str, port: int, mac: str) -> None:
         """Init"""
         
         # Set mac
         self.mac = mac
         
         # Do init
-        super().__init__(main_node, id_, host, port)
+        super().__init__(main_node, connection, id_, host, port)
     
     # Properties
     @property
