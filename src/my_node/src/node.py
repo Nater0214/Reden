@@ -191,23 +191,24 @@ class LocalNode(Node):
         """Connect with a node"""
         
         return super().connect_with_node(json_data["host"], json_data["port"])
-
-
+    
+    
     def connect_random(self, amount: int = 1) -> None:
         """Connect with an amount of random nodes"""
         
         for _ in range(amount):
             self.connect_with_node(choice(self.known_nodes))
     
+    
     def create_new_connection(self, main_node, id_: str, host: str, port: int) -> NodeConnection:
         """Override this method to use my NodeConnection"""
         
-        return NodeConnection(main_node, id_, host, port)
+        return NodeConnection(main_node, id_, host, port, self.mac)
     
     
     def add_node(self, host: str, port: int) -> None:
         """Connect to a new node"""
-
+        
         # Attempt to connect to node
         self.connect_with_node({"host": host, "port": port})
     
