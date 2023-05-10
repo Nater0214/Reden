@@ -21,6 +21,7 @@ from src import func_cache, generate_id, get_ifaces, settings, thread_wrap
 
 from . import _get as get
 from .node_connection import NodeConnection
+import IPy
 
 
 # Definitions
@@ -139,8 +140,18 @@ class LocalNode(Node):
     def my_init(self, iface: dict) -> None:
         """My init"""
         
+        # Get gateway ip:
+        gateway_ip = IPy.IP(get_ifaces()[iface]["default_gateway"])
+        
+        gateway_ip_ver = gateway_ip.version()
+        
         # Get the mac address
-        self.mac = get_mac_address(ip=get_ifaces()[iface]["default_gateway"])
+        if gateway_ip_ver == 4:
+            self.mac = get_mac_address(ip=str(gateway_ip))
+        elif gateway_ip_ver == 6:
+            self.mac = get_mac_address(ip6=str(gateway_ip))
+        else:
+            raise ValueError("Invalid gateway ip (wtf)")
         
         # Get the nodes from the file
         node_json = get.nodes_from_json(self.mac)
