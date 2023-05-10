@@ -23,7 +23,7 @@ class NodeConnection(p2pnetwork.nodeconnection.NodeConnection):
         self.mac = mac
         
         # Do init
-        super().__init__(main_node, None, id_, host, port)
+        super().__init__(main_node, id_, host, port)
     
     # Properties
     @property
