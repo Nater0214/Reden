@@ -6,9 +6,7 @@ import json
 from os import mkdir, path
 from pathlib import Path
 
-from cryptography.hazmat import backends
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import ec
+from Crypto.PublicKey import ECC
 
 from src import func_cache
 
@@ -54,11 +52,13 @@ def nodes_from_json(mac: str) -> dict:
     return json_data
 
 
-def node_data(mac: str) -> dict:
+def node_data(mac: str) -> dict | bool:
     """Get the data of every node"""
     
     # If the node info file does not exist return False
-    if not path.exists(node_data_path := path.join(chain_dir(mac), "node-info.json")):
+    if not path.exists(node_data_path := path.join(chain_dir(mac), "node-data.json")):
+        with open(node_data_path, 'wt') as file:
+            json.dump({}, file, indent=4)
         return False
     
     # Get node data json from file
@@ -69,7 +69,7 @@ def node_data(mac: str) -> dict:
     return json_data
 
 
-def node_public_key(mac: str, id: str) -> ec.EllipticCurvePublicKey | bool:
+def node_public_key(mac: str, id: str) -> ECC.EccKey | bool:
     """Get the public key of a node"""
     
     # Get the node data
@@ -78,12 +78,7 @@ def node_public_key(mac: str, id: str) -> ec.EllipticCurvePublicKey | bool:
     
     # Get the public key of the node
     try:
-        public_key_bytes = bytes.fromhex(node_data[id]["public-key"])
-        public_key = serialization.load_pem_public_key(
-            public_key_bytes,
-            password=None,
-            backend=backends.default_backend()
-        )
+        public_key = ECC.import_key(node_data[id]["public-key"], None, "p256")
     except KeyError:
         return False
     
@@ -91,25 +86,22 @@ def node_public_key(mac: str, id: str) -> ec.EllipticCurvePublicKey | bool:
     return public_key
 
 
-def private_key(mac: str) -> ec.EllipticCurvePrivateKey:
+def private_key(mac: str) -> tuple[ECC.EccKey, bool]:
     """Get the private key"""
     
     # Create a private key if it doesn't exist 
     if not path.exists(private_key_path := path.join(chain_dir(mac), "private.key")):
-        private_key = ec.generate_private_key(ec.SECP256K1)
-        with open(private_key_path, 'wb') as file:
-            file.write(private_key.private_bytes(
-                encoding=serialization.Encoding.PEM,
-                format=serialization.PrivateFormat.TraditionalOpenSSL,
-                encryption_algorithm=serialization.NoEncryption()
-            ))
+        private_key = ECC.generate(curve="p256")
+        with open(private_key_path, 'wt') as file:
+            file.write(private_key.export_key(format="PEM"))
+        
+        new_key = True
+    
+    else:
+        new_key = False
     
     # Get the private key
-    with open(private_key_path, 'rb') as file:
-        private_key = serialization.load_pem_private_key(
-            file.read(),
-            password=None,
-            backend=backends.default_backend()
-        )
+    with open(private_key_path, 'rt') as file:
+        private_key = ECC.import_key(file.read(), None, "p256")
     
-    return private_key
+    return private_key, new_key
