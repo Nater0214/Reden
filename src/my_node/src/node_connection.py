@@ -18,7 +18,7 @@ from . import _get as get
 class NodeConnection(p2pnetwork.nodeconnection.NodeConnection):
     """My override of the node connection"""
     
-    def __init__(self, main_node, connection: socket.sock, id_: str, host: str, port: int, mac: str) -> None:
+    def __init__(self, main_node, connection: socket.socket, id_: str, host: str, port: int, mac: str) -> None:
         """Init"""
         
         # Set mac

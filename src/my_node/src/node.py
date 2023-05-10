@@ -201,7 +201,7 @@ class LocalNode(Node):
             self.connect_with_node(choice(self.known_nodes))
     
     
-    def create_new_connection(self, connection: socket.sock, id_: str, host: str, port: int) -> NodeConnection:
+    def create_new_connection(self, connection: socket.socket, id_: str, host: str, port: int) -> NodeConnection:
         """Override this method to use my NodeConnection"""
         
         return NodeConnection(self, connection, id_, host, port, self.mac)
