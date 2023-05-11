@@ -1,5 +1,7 @@
 {
     "interface": "Wireless LAN adapter Wi-Fi",
     "port": 56787,
+    "max-known-nodes": 20,
+    "max-connected-nodes": 5,
     "node-auto-start": true
 }

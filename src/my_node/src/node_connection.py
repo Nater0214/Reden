@@ -69,6 +69,7 @@ class NodeConnection(p2pnetwork.nodeconnection.NodeConnection):
             "body": body
         })
     
+    
     def ft_get_node_data(self) -> None:
         """Get the node data for the first time"""
         

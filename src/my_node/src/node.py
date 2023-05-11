@@ -25,34 +25,17 @@ import IPy
 
 
 # Definitions
-def update_node_data(mac: str, id_: str, *, public_key_str: str = None, alias: str = None) -> bool:
+def update_node_data(mac: str, id_: str, public_key_str: str = None, alias: str = None) -> bool:
     """Updates the node data with the given data"""
     
     # Get the node data
     node_data = get.node_data(mac)
     
-    # Return false if no data
-    if node_data == False:
-        return False
-    
     # Initialize file if no data
-    if not node_data:
-        node_data = {
-            id_: {
-                "public-key": public_key_str,
-                "alias": alias
-            }
-        }
-    
-    # Or update the node with an id
-    else:
-        # Set public key
-        if public_key_str:
-            node_data[id_]["public-key"] = public_key_str
-        
-        # Set alias
-        if alias:
-            node_data[id_]["alias"] = alias
+    node_data[id_] = {
+        "public-key": public_key_str,
+        "alias": alias
+    }
     
     # Write data to file
     with open(path.join(get.chain_dir(mac), "node-data.json"), 'wt') as file:
@@ -74,6 +57,13 @@ class LocalNode(Node):
     
     # Events
     def inbound_node_connected(self, node: NodeConnection) -> None:
+        """Inbound node connected"""
+        
+        # Ask for node data if this is the first connected node ever
+        if self.known_nodes == []:
+            update_node_data(self.mac, self.id, self.private_key.public_key().export_key(format="PEM"))
+            node.ft_get_node_data()
+        
         self.add_known_node(node)
     
     
@@ -82,6 +72,7 @@ class LocalNode(Node):
         
         # Ask for node data if this is the first connected node ever
         if self.known_nodes == []:
+            update_node_data(self.mac, self.id, self.private_key.public_key().export_key(format="PEM"))
             node.ft_get_node_data()
         
         self.add_known_node(node)
@@ -92,7 +83,7 @@ class LocalNode(Node):
         
         # Check if a node is asking for first time node data
         if data == "ndplz":
-            node.send(f"okh{repr(get.node_data(self.mac))}")
+            node.send(f"okh{repr(get.node_data(self.mac))}", _no_encryption=True)
             return
         
         # Check if we got node data for the first time
