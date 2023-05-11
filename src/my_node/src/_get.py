@@ -73,12 +73,12 @@ def node_public_key(mac: str, id: str) -> ECC.EccKey | bool:
     """Get the public key of a node"""
     
     # Get the node data
-    if not (node_data := node_data(mac)):
+    if not (node_data_json := node_data(mac)):
         return False
     
     # Get the public key of the node
     try:
-        public_key = ECC.import_key(node_data[id]["public-key"], None, "p256")
+        public_key = ECC.import_key(node_data_json[id]["public-key"], None, "p256")
     except KeyError:
         return False
     

@@ -1275,47 +1275,8 @@ QStatusBar
         <string>Nodes</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Known Nodes</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Connected Nodes</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" rowspan="3" colspan="2">
-         <widget class="QListWidget" name="knownNodesList"/>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="addNodeButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Add</string>
-          </property>
-         </widget>
+        <item row="1" column="2" rowspan="3">
+         <widget class="QListWidget" name="connectedNodesList"/>
         </item>
         <item row="2" column="4">
          <widget class="QPushButton" name="nodeStartButton">
@@ -1327,19 +1288,6 @@ QStatusBar
           </property>
           <property name="text">
            <string>Start Node</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="5">
-         <widget class="QPushButton" name="nodeStopButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Stop Node</string>
           </property>
          </widget>
         </item>
@@ -1420,7 +1368,69 @@ QStatusBar
           </layout>
          </widget>
         </item>
-        <item row="3" column="4" colspan="2">
+        <item row="1" column="0" rowspan="3" colspan="2">
+         <widget class="QListWidget" name="knownNodesList"/>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Connected Nodes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="addNodeButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="3">
+         <widget class="QPushButton" name="refreshNodesButton">
+          <property name="text">
+           <string>Refresh</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="5">
+         <widget class="QPushButton" name="nodeStopButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Stop Node</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Known Nodes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="4" rowspan="2" colspan="2">
          <widget class="QGroupBox" name="nodeStats">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -1452,13 +1462,6 @@ QStatusBar
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>Connected nodes:</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="1">
             <widget class="QLabel" name="connectedNodesStat">
              <property name="text">
@@ -1466,11 +1469,15 @@ QStatusBar
              </property>
             </widget>
            </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>Connected nodes:</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
-        </item>
-        <item row="1" column="2" rowspan="3">
-         <widget class="QListWidget" name="connectedNodesList"/>
         </item>
        </layout>
       </widget>
@@ -1536,25 +1543,25 @@ QStatusBar
            <string>Node Settings</string>
           </property>
           <layout class="QFormLayout" name="formLayout_4">
-           <item row="0" column="0">
+           <item row="1" column="0">
             <widget class="QLabel" name="label_8">
              <property name="text">
               <string>Max Connected Nodes:</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QSpinBox" name="spinBox"/>
+           <item row="1" column="1">
+            <widget class="QSpinBox" name="maxConnectedNodesBox"/>
            </item>
-           <item row="1" column="0">
+           <item row="0" column="0">
             <widget class="QLabel" name="label_10">
              <property name="text">
               <string>Max Known Nodes</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QSpinBox" name="spinBox_2"/>
+           <item row="0" column="1">
+            <widget class="QSpinBox" name="maxKnownNodesBox"/>
            </item>
            <item row="2" column="0">
             <widget class="QCheckBox" name="nodeAutoStartBox">

@@ -24,4 +24,4 @@ def generate_id(prefix: str = None):
     unique_id = base64.b64encode(bytes.fromhex(hashlib.new("sha1", int(time.time()*100).to_bytes(5)).hexdigest()), b"_-").decode()[:-1]
     
     # Return it with optional prefix
-    return ((prefix + ":") if prefix else "") + unique_id
+    return ((prefix + "!") if prefix else "") + unique_id
