@@ -245,11 +245,9 @@ class LocalNode(Node):
     def save_json(self) -> None:
         """Save the known nodes and this node's id to a json file"""
         
-        out_nodes = [self.return_node_json(node) for node in self.nodes_outbound]
-        
         with open(path.join(str(Path.home()), "n-chain", ''.join(self.mac.split(':')), "nodes.json"), 'wt') as file:
             json.dump({
-                "known-nodes": out_nodes,
+                "known-nodes": self.known_nodes,
                 "local-node": {
                     "id": self.id
                 }
