@@ -1,4 +1,7 @@
 getmac
 ifcfg
+IPy
 p2pnetwork
+PyCryptodome
+PyInstaller
 PySide6

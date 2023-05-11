@@ -49,6 +49,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         self.nodeStopButton.clicked.connect(self.stop_local_node)
         self.addNodeButton.clicked.connect(self.open_add_node_window)
         self.saveSettingsButton.clicked.connect(self.save_settings)
+        self.refreshNodesButton.clicked.connect(self.update_node_lists)
         
         # Start node if auto-start is enabled
         self.auto_start()
@@ -58,8 +59,9 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
     def closeEvent(self, event) -> None:
         """Quit the app on window close"""
         
-        self.app.quit()
         local_node.stop()
+        local_node.save_json()
+        self.app.quit()
     
     
     # Button methods
@@ -70,13 +72,17 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         iface = settings.get_setting_value("interface")
         
         # Initialize the local node if it isn't already
-        if not local_node.initialized:
-            local_node.my_init(iface)
+        local_node.my_init(iface)
         
         local_node.run()
         
+        # Wait for node to be alive
+        while not local_node.is_alive():
+            sleep(0.1)
+        
         # Update the ui values
         self.update_ui_values()
+        self.update_node_lists()
     
     
     def stop_local_node(self) -> None:
@@ -87,6 +93,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Update UI values
         self.update_ui_values()
+        self.update_node_lists()
     
     
     def open_add_node_window(self) -> None:
@@ -103,6 +110,12 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Port
         settings.set_setting_value("port", self.portBox.value())
+        
+        # Max known nodes
+        settings.set_setting_value("max-known-nodes", self.maxKnownNodesBox.value())
+        
+        # Max connected nodes
+        settings.set_setting_value("max-connected-nodes", self.maxConnectedNodesBox.value())
         
         # Node auto-start
         settings.set_setting_value("node-auto-start", self.nodeAutoStartBox.isChecked())
@@ -123,7 +136,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
             is_alive = False
         
         if local_node and is_alive:
-            self.localNodeIPStat.setText(local_node.ip)
+            self.localNodeIPStat.setText(local_node.host)
             self.localNodePortStat.setText(str(local_node.port))
             self.localNodeIDStat.setText(local_node.id)
             self.localNodeActiveStat.setText("Yes")
@@ -147,6 +160,7 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         self.saveSettingsButton.setEnabled(False)
         
         # Update settings selection
+        # Interfaces
         self.interfaceBox.clear()
         for iface in get_ifaces().keys():
             self.interfaceBox.addItem(iface)
@@ -155,10 +169,20 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         else:
             self.interfaceBox.setCurrentIndex(0)
         
-        if (port := settings.get_setting_value("port")):
+        # Port
+        if (port := settings.get_setting_value("port")) is not None:
             self.portBox.setValue(port)
         
-        if (auto_start := settings.get_setting_value("node-auto-start")):
+        # Max known nodes
+        if (max_known_nodes := settings.get_setting_value("max-known-nodes")) is not None:
+            self.maxKnownNodesBox.setValue(max_known_nodes)
+        
+        # Max connected nodes
+        if (max_connected_nodes := settings.get_setting_value("max-connected-nodes")) is not None:
+            self.maxConnectedNodesBox.setValue(max_connected_nodes)
+        
+        # Auto start
+        if (auto_start := settings.get_setting_value("node-auto-start")) is not None:
             self.nodeAutoStartBox.setChecked(auto_start)
         
         # Flag values as ready
@@ -172,6 +196,28 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         # Wait for value
         while not self.values_ready:
             sleep(0.1)
+    
+    
+    def update_node_lists(self) -> None:
+        """Update the node lists"""
+        
+        # Get if node is alive
+        try:
+            is_alive = local_node.is_alive()
+        except AttributeError:
+            is_alive = False
+        
+        # Add nodes to list
+        if local_node:
+            if is_alive:
+                for node in local_node.all_nodes:
+                    self.connectedNodesList.addItem(node.id)
+                    
+                for node in local_node.known_nodes:
+                    self.knownNodesList.addItem(node["id"])
+            else:
+                self.knownNodesList.clear()
+                self.connectedNodesList.clear()
     
     
     @thread_wrap("AutoStartThread")
@@ -231,7 +277,7 @@ class AddNodeWindow(QMainWindow, ui_add_node.Ui_MainWindow):
                 raise InputError("Port is not valid")
 
             # Port in range
-            if not (0 < port < 65536):
+            if not 0 < port < 65536:
                 raise InputError("Port is not valid")
             
         except InputError as e:

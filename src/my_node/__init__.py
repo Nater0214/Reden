@@ -5,4 +5,5 @@
 # Imports
 from .src.node import LocalNode
 
+
 # from .src.node_list import NodeList

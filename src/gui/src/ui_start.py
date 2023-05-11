@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'start.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.0
+## Created by: Qt User Interface Compiler version 6.5.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,9 +17,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
     QFrame, QGridLayout, QGroupBox, QLabel,
-    QListView, QListWidget, QListWidgetItem, QMainWindow,
-    QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
-    QTabWidget, QTextEdit, QVBoxLayout, QWidget)
+    QListWidget, QListWidgetItem, QMainWindow, QPushButton,
+    QSizePolicy, QSpacerItem, QSpinBox, QTabWidget,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -1285,70 +1285,28 @@ class Ui_MainWindow(object):
         self.nodesTab.setObjectName(u"nodesTab")
         self.gridLayout_2 = QGridLayout(self.nodesTab)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.connectedNodesList = QListView(self.nodesTab)
+        self.connectedNodesList = QListWidget(self.nodesTab)
         self.connectedNodesList.setObjectName(u"connectedNodesList")
 
         self.gridLayout_2.addWidget(self.connectedNodesList, 1, 2, 3, 1)
 
-        self.label = QLabel(self.nodesTab)
-        self.label.setObjectName(u"label")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
-        self.label.setSizePolicy(sizePolicy1)
-
-        self.gridLayout_2.addWidget(self.label, 0, 0, 1, 1)
-
-        self.label_2 = QLabel(self.nodesTab)
-        self.label_2.setObjectName(u"label_2")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_2.addWidget(self.label_2, 0, 2, 1, 1)
-
-        self.knownNodesList = QListWidget(self.nodesTab)
-        self.knownNodesList.setObjectName(u"knownNodesList")
-
-        self.gridLayout_2.addWidget(self.knownNodesList, 1, 0, 3, 2)
-
-        self.addNodeButton = QPushButton(self.nodesTab)
-        self.addNodeButton.setObjectName(u"addNodeButton")
-        sizePolicy3 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.addNodeButton.sizePolicy().hasHeightForWidth())
-        self.addNodeButton.setSizePolicy(sizePolicy3)
-
-        self.gridLayout_2.addWidget(self.addNodeButton, 0, 1, 1, 1)
-
         self.nodeStartButton = QPushButton(self.nodesTab)
         self.nodeStartButton.setObjectName(u"nodeStartButton")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.nodeStartButton.sizePolicy().hasHeightForWidth())
-        self.nodeStartButton.setSizePolicy(sizePolicy4)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.nodeStartButton.sizePolicy().hasHeightForWidth())
+        self.nodeStartButton.setSizePolicy(sizePolicy1)
 
         self.gridLayout_2.addWidget(self.nodeStartButton, 2, 4, 1, 1)
 
-        self.nodeStopButton = QPushButton(self.nodesTab)
-        self.nodeStopButton.setObjectName(u"nodeStopButton")
-        sizePolicy4.setHeightForWidth(self.nodeStopButton.sizePolicy().hasHeightForWidth())
-        self.nodeStopButton.setSizePolicy(sizePolicy4)
-
-        self.gridLayout_2.addWidget(self.nodeStopButton, 2, 5, 1, 1)
-
         self.localNodeStats = QGroupBox(self.nodesTab)
         self.localNodeStats.setObjectName(u"localNodeStats")
-        sizePolicy5 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Preferred)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.localNodeStats.sizePolicy().hasHeightForWidth())
-        self.localNodeStats.setSizePolicy(sizePolicy5)
+        sizePolicy2 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.localNodeStats.sizePolicy().hasHeightForWidth())
+        self.localNodeStats.setSizePolicy(sizePolicy2)
         self.localNodeStats.setMinimumSize(QSize(120, 0))
         self.formLayout = QFormLayout(self.localNodeStats)
         self.formLayout.setObjectName(u"formLayout")
@@ -1395,10 +1353,57 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.localNodeStats, 0, 4, 2, 2)
 
+        self.knownNodesList = QListWidget(self.nodesTab)
+        self.knownNodesList.setObjectName(u"knownNodesList")
+
+        self.gridLayout_2.addWidget(self.knownNodesList, 1, 0, 3, 2)
+
+        self.label_2 = QLabel(self.nodesTab)
+        self.label_2.setObjectName(u"label_2")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy3)
+
+        self.gridLayout_2.addWidget(self.label_2, 0, 2, 1, 1)
+
+        self.addNodeButton = QPushButton(self.nodesTab)
+        self.addNodeButton.setObjectName(u"addNodeButton")
+        sizePolicy4 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.addNodeButton.sizePolicy().hasHeightForWidth())
+        self.addNodeButton.setSizePolicy(sizePolicy4)
+
+        self.gridLayout_2.addWidget(self.addNodeButton, 0, 1, 1, 1)
+
+        self.refreshNodesButton = QPushButton(self.nodesTab)
+        self.refreshNodesButton.setObjectName(u"refreshNodesButton")
+
+        self.gridLayout_2.addWidget(self.refreshNodesButton, 4, 0, 1, 3)
+
+        self.nodeStopButton = QPushButton(self.nodesTab)
+        self.nodeStopButton.setObjectName(u"nodeStopButton")
+        sizePolicy1.setHeightForWidth(self.nodeStopButton.sizePolicy().hasHeightForWidth())
+        self.nodeStopButton.setSizePolicy(sizePolicy1)
+
+        self.gridLayout_2.addWidget(self.nodeStopButton, 2, 5, 1, 1)
+
+        self.label = QLabel(self.nodesTab)
+        self.label.setObjectName(u"label")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy5)
+
+        self.gridLayout_2.addWidget(self.label, 0, 0, 1, 1)
+
         self.nodeStats = QGroupBox(self.nodesTab)
         self.nodeStats.setObjectName(u"nodeStats")
-        sizePolicy5.setHeightForWidth(self.nodeStats.sizePolicy().hasHeightForWidth())
-        self.nodeStats.setSizePolicy(sizePolicy5)
+        sizePolicy2.setHeightForWidth(self.nodeStats.sizePolicy().hasHeightForWidth())
+        self.nodeStats.setSizePolicy(sizePolicy2)
         self.nodeStats.setMinimumSize(QSize(150, 0))
         self.formLayout_2 = QFormLayout(self.nodeStats)
         self.formLayout_2.setObjectName(u"formLayout_2")
@@ -1412,18 +1417,18 @@ class Ui_MainWindow(object):
 
         self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.knownNodesStat)
 
-        self.label_11 = QLabel(self.nodeStats)
-        self.label_11.setObjectName(u"label_11")
-
-        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_11)
-
         self.connectedNodesStat = QLabel(self.nodeStats)
         self.connectedNodesStat.setObjectName(u"connectedNodesStat")
 
         self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.connectedNodesStat)
 
+        self.label_11 = QLabel(self.nodeStats)
+        self.label_11.setObjectName(u"label_11")
 
-        self.gridLayout_2.addWidget(self.nodeStats, 3, 4, 1, 2)
+        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_11)
+
+
+        self.gridLayout_2.addWidget(self.nodeStats, 3, 4, 2, 2)
 
         self.tabWidget.addTab(self.nodesTab, "")
         self.settingsTab = QWidget()
@@ -1471,22 +1476,22 @@ class Ui_MainWindow(object):
         self.label_8 = QLabel(self.groupBox)
         self.label_8.setObjectName(u"label_8")
 
-        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_8)
+        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_8)
 
-        self.spinBox = QSpinBox(self.groupBox)
-        self.spinBox.setObjectName(u"spinBox")
+        self.maxConnectedNodesBox = QSpinBox(self.groupBox)
+        self.maxConnectedNodesBox.setObjectName(u"maxConnectedNodesBox")
 
-        self.formLayout_4.setWidget(0, QFormLayout.FieldRole, self.spinBox)
+        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.maxConnectedNodesBox)
 
         self.label_10 = QLabel(self.groupBox)
         self.label_10.setObjectName(u"label_10")
 
-        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_10)
+        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_10)
 
-        self.spinBox_2 = QSpinBox(self.groupBox)
-        self.spinBox_2.setObjectName(u"spinBox_2")
+        self.maxKnownNodesBox = QSpinBox(self.groupBox)
+        self.maxKnownNodesBox.setObjectName(u"maxKnownNodesBox")
 
-        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.spinBox_2)
+        self.formLayout_4.setWidget(0, QFormLayout.FieldRole, self.maxKnownNodesBox)
 
         self.nodeAutoStartBox = QCheckBox(self.groupBox)
         self.nodeAutoStartBox.setObjectName(u"nodeAutoStartBox")
@@ -1514,7 +1519,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1523,11 +1528,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Reden", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.messagingTab), QCoreApplication.translate("MainWindow", u"Messaging", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Known Nodes", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Connected Nodes", None))
-        self.addNodeButton.setText(QCoreApplication.translate("MainWindow", u"Add", None))
         self.nodeStartButton.setText(QCoreApplication.translate("MainWindow", u"Start Node", None))
-        self.nodeStopButton.setText(QCoreApplication.translate("MainWindow", u"Stop Node", None))
         self.localNodeStats.setTitle(QCoreApplication.translate("MainWindow", u"Local Node", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"IP:", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Port:", None))
@@ -1537,11 +1538,16 @@ class Ui_MainWindow(object):
         self.localNodeIDStat.setText(QCoreApplication.translate("MainWindow", u"None", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Active:", None))
         self.localNodeActiveStat.setText(QCoreApplication.translate("MainWindow", u"No", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Connected Nodes", None))
+        self.addNodeButton.setText(QCoreApplication.translate("MainWindow", u"Add", None))
+        self.refreshNodesButton.setText(QCoreApplication.translate("MainWindow", u"Refresh", None))
+        self.nodeStopButton.setText(QCoreApplication.translate("MainWindow", u"Stop Node", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Known Nodes", None))
         self.nodeStats.setTitle(QCoreApplication.translate("MainWindow", u"Node Stats", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Known nodes:", None))
         self.knownNodesStat.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Connected nodes:", None))
         self.connectedNodesStat.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Connected nodes:", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.nodesTab), QCoreApplication.translate("MainWindow", u"Nodes", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Network Settings", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Network Interface:", None))
