@@ -275,11 +275,32 @@ class LocalNode(Node):
         # Set running flag
         self._running = True
         
+        # Start regulation
+        self.regulate_nodes()
+        
         # Run node
         super().run()
         
         # Set running flag
         self._running = False
+    
+    
+    @thread_wrap("P2PRegulationThread")
+    def regulate_nodes(self) -> None:
+        """Regulate nodes and connections with nodes"""
+        
+        # Loop
+        while not self.terminate_flag.is_set():
+            # Prune known nodes to max amount
+            while len(self.known_nodes) > settings.get_setting_value("max-known-nodes"):
+                self.known_nodes.remove(choice(self.known_nodes))
+            
+            # Try to connect to more nodes
+            while len(self.all_nodes) < min(len(self.known_nodes), settings.get_setting_value("max-connected-nodes")):
+                self.connect_random()
+            
+            # Wait
+            sleep(5)
     
     
     def stop(self) -> None:
@@ -302,3 +323,5 @@ class LocalNode(Node):
         # Wait for node to finish
         while self._running:
             sleep(0.1)
+        
+        self.regulate_nodes.join()
