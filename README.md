@@ -1,7 +1,7 @@
 # Reden
 A cool project.
 ## What is this?
-Reden is a project I've been working on for a while. It is a LAN messaging app that uses p2p. If you have no idea how this works, then go to the [How it works](#How-it-works:) section. It is very bare at this point, so don't expect much out of it.
+Reden is a project I've been working on for a while. It is a LAN messaging app that uses p2p. If you have no idea how this works, then go to the [How it works](#How-it-works:) section. It is still a work in progress.
 ## Getting Started:
 Here is the steps required to getting started.  
 1. Download the most recent release from the releases tab, or [here](https://github.com/Nater0214/Reden/releases/)
