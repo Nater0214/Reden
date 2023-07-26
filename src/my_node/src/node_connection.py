@@ -8,8 +8,9 @@ import socket
 import p2pnetwork.nodeconnection
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import ECC
+from naters_utils.functions import func_cache
 
-from src import func_cache, generate_id
+from src import generate_id
 
 from . import _get as get
 

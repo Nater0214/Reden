@@ -5,10 +5,10 @@
 # Imports
 from time import sleep
 
-from getmac import get_mac_address
+from naters_utils.functions import thread_wrap
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from src import get_ifaces, my_node, settings, thread_wrap
+from src import get_ifaces, my_node, settings
 
 from .src import ui_add_node, ui_start
 
@@ -209,15 +209,14 @@ class StartWindow(QMainWindow, ui_start.Ui_MainWindow):
         
         # Add nodes to list
         if local_node:
+            self.knownNodesList.clear()
+            self.connectedNodesList.clear()
             if is_alive:
                 for node in local_node.all_nodes:
                     self.connectedNodesList.addItem(node.id)
                     
                 for node in local_node.known_nodes:
                     self.knownNodesList.addItem(node["id"])
-            else:
-                self.knownNodesList.clear()
-                self.connectedNodesList.clear()
     
     
     @thread_wrap("AutoStartThread")

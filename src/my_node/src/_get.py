@@ -7,8 +7,7 @@ from os import mkdir, path
 from pathlib import Path
 
 from Crypto.PublicKey import ECC
-
-from src import func_cache
+from naters_utils.functions import func_cache
 
 
 # Definitions
