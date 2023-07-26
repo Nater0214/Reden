@@ -6,8 +6,7 @@
 import re
 
 import ifcfg
-
-from src import func_cache
+from naters_utils.functions import func_cache
 
 
 # Definitions

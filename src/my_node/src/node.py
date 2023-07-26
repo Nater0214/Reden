@@ -12,16 +12,17 @@ from pathlib import Path
 from random import choice
 from time import sleep
 
+import IPy
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import ECC
 from getmac import get_mac_address
+from naters_utils.functions import func_cache, thread_wrap
 from p2pnetwork.node import Node
 
-from src import func_cache, generate_id, get_ifaces, settings, thread_wrap
+from src import generate_id, get_ifaces, settings
 
 from . import _get as get
 from .node_connection import NodeConnection
-import IPy
 
 
 # Definitions
@@ -184,7 +185,7 @@ class LocalNode(Node):
         self.known_nodes.append(
             {
                 "host": node.host,
-                "port": node.port,
+                "port": int(node.port),
                 "id": node.id
             }
         )
@@ -290,17 +291,17 @@ class LocalNode(Node):
         """Regulate nodes and connections with nodes"""
         
         # Loop
-        while not self.terminate_flag.is_set():
-            # Prune known nodes to max amount
-            while len(self.known_nodes) > settings.get_setting_value("max-known-nodes"):
-                self.known_nodes.remove(choice(self.known_nodes))
+        # while not self.terminate_flag.is_set():
+        #     # Prune known nodes to max amount
+        #     while len(self.known_nodes) > settings.get_setting_value("max-known-nodes"):
+        #         self.known_nodes.remove(choice(self.known_nodes))
             
-            # Try to connect to more nodes
-            while len(self.all_nodes) < min(len(self.known_nodes), settings.get_setting_value("max-connected-nodes")):
-                self.connect_random()
+        #     # Try to connect to more nodes
+        #     while len(self.all_nodes) < min(len(self.known_nodes), settings.get_setting_value("max-connected-nodes")):
+        #         self.connect_random()
             
-            # Wait
-            sleep(5)
+        #     # Wait
+        #     sleep(5)
     
     
     def stop(self) -> None:
@@ -323,5 +324,3 @@ class LocalNode(Node):
         # Wait for node to finish
         while self._running:
             sleep(0.1)
-        
-        self.regulate_nodes.join()

@@ -6,7 +6,7 @@
 import json
 from os import mkdir, path
 
-from src import func_cache
+from naters_utils.functions import func_cache
 
 
 # Definitions
@@ -26,7 +26,7 @@ def _get_settings_path() -> str:
     # Make sure settings file exists
     if not path.exists((settings_path := path.join(store_path, "settings.json"))):
         with open(settings_path, 'wt') as file:
-            json.dump({key: None for key in ["interface", "port"]}, file, indent=4)
+            json.dump({key: None for key in ["interface", "port", "node-auto-start", "max-known-nodes", "max-connected-nodes"]}, file, indent=4)
     
     return path.join(settings_path)
 
