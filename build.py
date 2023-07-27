@@ -13,17 +13,14 @@ import PyInstaller.__main__
 
 
 # Definitions
-def main(args):
+def main():
     """Main"""
-    
-    # Get name
-    name = args.name
     
     # Build the project with PyInstaller
     print(f"Building the project {name}:")
     PyInstaller.__main__.run([
         "--noconfirm",
-        f"{name}.spec"
+        f"reden.spec"
     ])
     
     # Organize the output
@@ -54,7 +51,4 @@ def main(args):
 
 # Run
 if __name__ == "__main__":
-    arg_parser = ArgumentParser()
-    arg_parser.add_argument("name", help="Name of the project")
-
-    main(arg_parser.parse_args())
+    main()
