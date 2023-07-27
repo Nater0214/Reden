@@ -1,9 +1,12 @@
 *_test.py
 *__pycache__
+.dockerignore
 .pytest_cache
 .vscode
 .VSCodeCounter
 build
 dist
+docker-compose.yml
+Dockerfile
 tests
 pytest.ini

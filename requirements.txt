@@ -1,6 +1,7 @@
 getmac
 ifcfg
 IPy
+naters-utils
 p2pnetwork
 PyCryptodome
 PyInstaller
